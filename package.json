@@ -22,5 +22,10 @@
   "bugs": {
     "url": "https://github.com/keepthemonochrome/hrsf51-greenfield/issues"
   },
-  "homepage": "https://github.com/keepthemonochrome/hrsf51-greenfield#readme"
+  "homepage": "https://github.com/keepthemonochrome/hrsf51-greenfield#readme",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "multer": "^1.2.0"
+  }
 }
