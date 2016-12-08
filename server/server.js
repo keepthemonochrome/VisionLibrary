@@ -4,6 +4,7 @@ var app = express();
 var multer = require('multer');
 var cors = require('cors');
 var uuid = require('node-uuid').v4;
+var db = require('./config');
 
 var path = {
   photos: __dirname + '/photo_storage'
