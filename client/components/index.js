@@ -1,38 +1,54 @@
 var React = require('react');
 var Dropzone = require('react-dropzone');
 var ReactDOM = require('react-dom');
+var Nav = require('./nav');
+var Upload = require('./upload');
 require('es6-promise').polyfill();
 require('isomorphic-fetch');
 
-class Upload extends React.Component {
-  onDrop(acceptedFiles, rejectedFiles) {
-  	console.log('Rejected files: ', rejectedFiles);
-        // var req = request.post('http://localhost:3000/api/photos');
-        // acceptedFiles.forEach((file)=> {
-        //     req.attach(file.name, file);
-        // });
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      sources: [{url: 'bonito.gif'}, {url: 'cat.jpg'}] //-------------------check with server
+      
+    }
 
-		console.log('Accepted files: ', acceptedFiles);
-		var formData = new FormData();
-		formData.append('photos', acceptedFiles);
-		fetch('http://localhost:3000/api/photos', {
-			method: 'POST',
-			body: formData
-		}).then(response => console.log('Got response from server ', response));
   }
+
+  handleSearch (keyword, limit = 10) {
+    var requestBody = { //-------------------check with server
+      keyword: keyword,
+      limit: limit
+      };
+    fetch('http://localhost:3000/api/photos', {
+      method: 'GET',
+      body: requestBody, //----------------------------check with server
+    }).then(response => {
+      console.log('Got response from server ', response)
+      this.setState({sources: response}) //----------------------------check with server
+    });
+  }
+// <Display sources = {this.state.sources}/>
 
   render() {
     return (
         <div>
-          <Dropzone onDrop={this.onDrop}>
-            <div>Try dropping some files here, or click to select files to upload.</div>
-          </Dropzone>
+          <div> Home Page </div>
+          <Nav 
+            handleSearch = {this.handleSearch.bind(this)}
+          />
+          
+          <Upload />
         </div>
     );
   }
 }
+
+window.App = App;
+
 ReactDOM.render(
-	<Upload />, 
+	<App />, 
 	document.getElementById('app')
 );
 
