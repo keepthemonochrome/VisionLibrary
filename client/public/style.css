@@ -12,3 +12,7 @@ body {
 .to-delete {
 	border: 3px solid red;
 }
+
+.navbar {
+  background-color: 'blue';
+}

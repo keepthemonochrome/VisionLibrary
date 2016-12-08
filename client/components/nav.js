@@ -42,33 +42,46 @@ const fruit = [
   'Ugli fruit',
   'Watermelon',
 ];
+
+const Styles = {
+  navButton: {
+    color: 'white'
+  },
+  searchUnderline: {
+    color: '#2196F3'
+  },
+  toolbarTitle: {
+    color: 'white'
+  }
+}
+
 class Nav extends React.Component {
   constructor (props) {
     super(props);
 
 
   }
- 
+
   render() {
     return (
-      <MuiThemeProvider>
-        <Toolbar>
+        <Toolbar style={this.props.style}>
           <ToolbarGroup>
-            <ToolbarTitle text="SuperSorter" />
+            <ToolbarTitle text="SuperSorter" style={Styles.toolbarTitle} />
             <FontIcon className="muidocs-icon-custom-sort" />
             <AutoComplete
               filter={AutoComplete.fuzzyFilter}
               dataSource={fruit}
               maxSearchResults={5}
+              underlineStyle={Styles.searchUnderline}
             />
-            <FlatButton primary={true} >
-              <i className="material-icons" style={{marginRight: 5}}>backup</i>
-              Upload
-            </FlatButton>
-            <FlatButton primary={true} >
-              <i className="material-icons" style={{marginRight: 5}}>account_circle</i>
-              michaelbdai
-            </FlatButton>
+            <FlatButton
+              icon={<FontIcon className="material-icons">backup</FontIcon>}
+              label="Upload"
+              style={Styles.navButton}/ >
+            <FlatButton
+              icon={<FontIcon className="material-icons">account_circle</FontIcon>}
+              label="michaelbdai"
+              style={Styles.navButton} />
             <IconMenu
               iconButtonElement={
                 <IconButton touch={true}>
@@ -80,16 +93,10 @@ class Nav extends React.Component {
               <MenuItem primaryText="More Info" />
             </IconMenu>
           </ToolbarGroup>
-        </Toolbar>        
-      </MuiThemeProvider>
+        </Toolbar>
     );
   }
 }
 
 
 module.exports = Nav;
-
-
-
-
-
