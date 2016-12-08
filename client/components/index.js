@@ -1,20 +1,22 @@
 var React = require('react');
 var Dropzone = require('react-dropzone');
 var ReactDOM = require('react-dom');
+var _ = require('lodash');
+
 require('es6-promise').polyfill();
 require('isomorphic-fetch');
 
 class Upload extends React.Component {
   onDrop(acceptedFiles, rejectedFiles) {
   	console.log('Rejected files: ', rejectedFiles);
-        // var req = request.post('http://localhost:3000/api/photos');
-        // acceptedFiles.forEach((file)=> {
-        //     req.attach(file.name, file);
-        // });
 
-		console.log('Accepted files: ', acceptedFiles);
+    // Make a new formData object so simulate files being sent by a form
+    // instead of an html5 dropzone
 		var formData = new FormData();
-		formData.append('photos', acceptedFiles);
+    // Attach all accepted files to the form data
+    _.each(acceptedFiles, file => formData.append('photos', file));
+
+    // Post files to server endpoint
 		fetch('http://localhost:3000/api/photos', {
 			method: 'POST',
 			body: formData
@@ -32,9 +34,6 @@ class Upload extends React.Component {
   }
 }
 ReactDOM.render(
-	<Upload />, 
+	<Upload />,
 	document.getElementById('app')
 );
-
-
-
