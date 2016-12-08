@@ -1,9 +1,10 @@
-var React = require('react');
-var Dropzone = require('react-dropzone');
-var ReactDOM = require('react-dom');
-var Nav = require('./nav');
-var Upload = require('./upload');
-var Display = require('./display');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import Nav from './nav';
+import Display from './display';
+import TagBar from './TagBar';
+import Upload from './upload';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 require('es6-promise').polyfill();
 require('isomorphic-fetch');
 window.endpoint = 'http://localhost:3000/api';
@@ -24,7 +25,7 @@ class App extends React.Component {
         'cffca93f-d4a4-44ed-b4c8-eef160fc8184': true,
 //        {url: 'http://localhost:3000/api/photos/d34cdb08-385d-44fa-9c10-11929882cbba'},
       }, //-------------------check with server
-      
+
     }
 
   }
@@ -36,7 +37,6 @@ class App extends React.Component {
       this.setState({sources: response}) //----------------------------check with server
     });
   }
-// <Display sources = {this.state.sources}/>
   handleDelete (source) {
     delete this.state.sources[source]
     this.setState({sources: this.state.sources});
@@ -48,24 +48,33 @@ class App extends React.Component {
 
   render() {
     return (
+      <MuiThemeProvider>
         <div>
-          <div className = 'title'> Home Page </div> 
-          <Nav 
+          <Nav
             handleSearch = {this.handleSearch.bind(this)}
-          />
-          <Display 
+            style={{backgroundColor: '#03A9F4'}}
+            />
+          <TagBar
+            tags={['food', 'travel', 'animals']}
+            style={{backgroundColor: 'rgb(245, 245, 245)'}}
+            tagStyle={{marginRight: 10}}
+            />
+
+          <Display
             handleDelete = {this.handleDelete.bind(this)}
             sources = {this.state.sources}
           />
           <Upload />
         </div>
+      </MuiThemeProvider>
     );
   }
 }
 
+
 window.App = App;
 
 ReactDOM.render(
-	<App />, 
+	<App />,
 	document.getElementById('app')
 );

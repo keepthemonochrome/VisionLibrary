@@ -1,0 +1,18 @@
+body {
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+}
+
+.display-photo {
+	width: 250px;
+	height: 250px;
+	margin: 10px;
+}
+
+.to-delete {
+	border: 3px solid red;
+}
+
+.navbar {
+  background-color: 'blue';
+}

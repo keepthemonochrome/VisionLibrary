@@ -1,15 +1,24 @@
-var React = require('react');
-var Dropzone = require('react-dropzone');
-var ReactDOM = require('react-dom');
-var _ = require('lodash');
+import React from 'react';
+import Dropzone from 'react-dropzone';
+import ReactDOM from 'react-dom';
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
+import * as _ from 'lodash';
 
 require('es6-promise').polyfill();
 require('isomorphic-fetch');
 
 class Upload extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      open: false
+    }
+  }
+
   onDrop(acceptedFiles, rejectedFiles) {
     console.log('Rejected files: ', rejectedFiles);
-
     // Make a new formData object so simulate files being sent by a form
     // instead of an html5 dropzone
     var formData = new FormData();
@@ -22,14 +31,45 @@ class Upload extends React.Component {
       body: formData
     }).then(response => console.log('Got response from server ', response));
   }
+  handleOpen() {
+    this.setState({open: true});
+  };
+
+  handleClose() {
+    this.setState({open: false});
+  };
 
   render() {
+    const actions = [
+      <FlatButton
+        label="Cancel"
+        primary={true}
+        onTouchTap={this.handleClose}
+      />,
+      <FlatButton
+        label="Submit"
+        primary={true}
+        keyboardFocused={true}
+        onTouchTap={this.handleClose}
+      />,
+    ];
+
     return (
-        <div>
+      <div>
+        <RaisedButton label="Dialog" onTouchTap={this.handleOpen} />
+        <Dialog
+          title="Dialog With Actions"
+          actions={actions}
+          modal={false}
+          open={this.state.open}
+          onRequestClose={this.handleClose}
+        >
+          The actions in this window were passed in as an array of React objects.
           <Dropzone onDrop={this.onDrop}>
             <div>Try dropping some files here, or click to select files to upload.</div>
           </Dropzone>
-        </div>
+        </Dialog>
+      </div>
     );
   }
 }
