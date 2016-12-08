@@ -8,6 +8,7 @@ class Display extends React.Component {
 		super(props);
 		this.state = {
 			toDelete: []
+			display: 'display-photo'
 		}
 	}
   submitDelete() {
@@ -16,7 +17,8 @@ class Display extends React.Component {
   	})
   }
   handleClick() {
-  	
+    this.setState({display: 'display-photo to-delete'});
+    console.log('should delete these files: ' + this.state.toDelete);
   }
   render() {
   	return (
@@ -25,15 +27,18 @@ class Display extends React.Component {
 		  		 Object.keys(this.props.sources)
 		  	  .map(source => (
 		  		  <img 
-		  		    className = 'display-photo'
-		  		    scr = {source}
+		  		    className = {this.state.display}
+		  		    src = {window.endpoint + '/photos/' + source}
 		  		    onClick = {this.handleClick.bind(this)}
 
 		  		  />
 
 		  	  ))
         }
-        <div className = 'button' onClick = {this.submitDelete.bind(this)} />
+        <div 
+          className = 'button' 
+          onClick = {this.submitDelete.bind(this)} 
+         > Submit Delete </div>
       </div>
 
   		)
@@ -42,7 +47,6 @@ class Display extends React.Component {
   }
 }
 
-var Display = ({handleDelete sources})
 
 module.exports = Display;
 

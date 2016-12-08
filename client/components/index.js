@@ -6,7 +6,7 @@ var Upload = require('./upload');
 var Display = require('./display');
 require('es6-promise').polyfill();
 require('isomorphic-fetch');
-window.endpoint = 'http://localhost:3000/api/photos';
+window.endpoint = 'http://localhost:3000/api';
 
 class App extends React.Component {
   constructor(props) {
@@ -39,7 +39,7 @@ class App extends React.Component {
 // <Display sources = {this.state.sources}/>
   handleDelete (source) {
     delete this.state.sources[source]
-    this.setState(sources: this.state.sources);
+    this.setState({sources: this.state.sources});
     fetch(window.endpoint + '/phones/delete/' + source, {method: 'POST'})
     .then(response => {
       console.log('Deleted one picture, response from server: ' + response);
