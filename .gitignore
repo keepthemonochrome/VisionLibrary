@@ -9,3 +9,6 @@ dist/
 
 bundle.js
 bundle.js.map
+
+*credentials.json
+*.config.js
