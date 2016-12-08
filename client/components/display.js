@@ -1,32 +1,49 @@
 var React = require('react');
-var Dropzone = require('react-dropzone');
-var ReactDOM = require('react-dom');
 
 require('es6-promise').polyfill();
 require('isomorphic-fetch');
 
-class Upload extends React.Component {
-  onDrop(acceptedFiles, rejectedFiles) {
-  	console.log('Rejected files: ', rejectedFiles);
-		console.log('Accepted files: ', acceptedFiles);
-		var formData = new FormData();
-		formData.append('photos', acceptedFiles);
-		fetch('http://localhost:3000/api/photos', {
-			method: 'POST',
-			body: formData
-		}).then(response => console.log('Got response from server ', response));
+class Display extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			toDelete: []
+		}
+	}
+  submitDelete() {
+  	this.state.toDelete.forEach(source => {
+  		this.props.handleDelete(source);
+  	})
   }
-
+  handleClick() {
+  	
+  }
   render() {
-    return (
-        <div>
-          <Dropzone onDrop={this.onDrop}>
-            <div>Try dropping some files here, or click to select files to upload.</div>
-          </Dropzone>
-        </div>
-    );
+  	return (
+      <div className = 'display-photos'>
+        {
+		  		 Object.keys(this.props.sources)
+		  	  .map(source => (
+		  		  <img 
+		  		    className = 'display-photo'
+		  		    scr = {source}
+		  		    onClick = {this.handleClick.bind(this)}
+
+		  		  />
+
+		  	  ))
+        }
+        <div className = 'button' onClick = {this.submitDelete.bind(this)} />
+      </div>
+
+  		)
+
+
   }
 }
 
+var Display = ({handleDelete sources})
+
+module.exports = Display;
 
 

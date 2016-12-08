@@ -3,13 +3,27 @@ var app = express()
 // var parser = require('body-parser');
 var multer = require('multer');
 var cors = require('cors');
+var uuid = require('node-uuid').v4;
 
+var path = {
+  photos: __dirname + '/photo_storage'
+};
+// console.log(__dirname)
 // Set max file size to 10MB per photo, max 20 photos, store in uploads/
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, path.photos)
+  },
+  filename: function (req, file, cb) {
+    cb(null, uuid())
+  }
+})
+
 var fileupload = multer({
-  dest: 'uploads/',
+  storage: storage,
   fileSize: 1024 * 1000 * 10,
   files: 20
-})
+}).array('photos');
 
 // Declare an api router that routes requests from *:/api
 var api = express.Router();
@@ -19,17 +33,21 @@ api.use(cors());
 
 // POST /api/photos
 // Router endpoint for uploading photos uses multipart form data uploads
-//fileupload.array('photos', 20),
-api.post('/photos', fileupload.array('photos', 20), (req, res) => {
-	console.log('Got request');
-	console.log(Object.keys(req));
-	console.log(req.body);
-	console.log(req.body.photos);
-  res.status(201).send('Good');
+api.post('/photos', fileupload, (req, res) => {
+	console.log('Received photos');
+  // console.log(req.file);
+
+  console.log(req.files);
+  res.status(201);
 });
 
-api.get('/photos', (req, res) => {
+// api.get('/photos', (req, res) => {
+//  //[{url: 'http://..', }]
+// });
 
+api.get('/photos/:uuid', (req, res) => {
+  let filePath = path.photos + '/' + req.params.uuid;
+  res.sendFile(filePath);
 });
 
 app.use('/api', api);

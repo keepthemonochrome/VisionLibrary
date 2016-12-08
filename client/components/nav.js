@@ -15,8 +15,6 @@ class Nav extends React.Component {
   handleChange(event) {
     this.setState({keyword: event.target.value});
   }  
-
-
   render() {
     return (
       <form onSubmit={() => {this.porps.handleSearch(this.state.keyword)}}>
@@ -24,7 +22,7 @@ class Nav extends React.Component {
           Enter keyword:
           <input type="text" value={this.state.keyword} onChange={this.handleChange.bind(this)} />
         </label>
-        <input type="submit" value="Submit" />
+        <input type="submit" className = 'button' value="Submit" />
       </form>
     );
   }
