@@ -1,6 +1,10 @@
 import React from 'react';
 import Dropzone from 'react-dropzone';
 import ReactDOM from 'react-dom';
+import Nav from './nav';
+import Display from './display';
+import TagBar from './TagBar';
+import Upload from './upload';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 require('es6-promise').polyfill();
 require('isomorphic-fetch');
@@ -47,9 +51,13 @@ class App extends React.Component {
     return (
       <MuiThemeProvider>
         <div>
-          <Nav
-            handleSearch = {this.handleSearch.bind(this)}
-          />
+          <Nav handleSearch = {this.handleSearch.bind(this)} />
+          <TagBar
+            tags={['food', 'travel', 'animals']}
+            style={{backgroundColor: 'rgb(245, 245, 245)'}}
+            tagStyle={{marginRight: 10}}
+            />
+
           <Display
             handleDelete = {this.handleDelete.bind(this)}
             sources = {this.state.sources}

@@ -39,7 +39,8 @@
     "node-uuid": "^1.4.7",
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
-    "react-dropzone": "^3.7.3"
+    "react-dropzone": "^3.7.3",
+    "react-tap-event-plugin": "^2.0.1"
   },
   "devDependencies": {
     "babel-cli": "^6.6.5",
