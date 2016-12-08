@@ -45,9 +45,22 @@ api.post('/photos', fileupload, (req, res) => {
 //  //[{url: 'http://..', }]
 // });
 
+api.post('/photos/delete/:uuid', (req, res) => {
+  // TODO delete photo
+  res.send('Photo deleted');
+});
+
 api.get('/photos/:uuid', (req, res) => {
   let filePath = path.photos + '/' + req.params.uuid;
   res.sendFile(filePath);
+});
+
+api.get('/keywords/:keyword', (req, res) => {
+  // TODO search mongo keyword collection for the keyword and return all photo UUIDs
+});
+
+api.get('/keywords', (req, res) => {
+  // TODO return all keywords
 });
 
 app.use('/api', api);
