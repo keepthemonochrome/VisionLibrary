@@ -51,7 +51,10 @@ class App extends React.Component {
     return (
       <MuiThemeProvider>
         <div>
-          <Nav handleSearch = {this.handleSearch.bind(this)} />
+          <Nav
+            handleSearch = {this.handleSearch.bind(this)}
+            style={{backgroundColor: '#03A9F4'}}
+            />
           <TagBar
             tags={['food', 'travel', 'animals']}
             style={{backgroundColor: 'rgb(245, 245, 245)'}}
