@@ -1,5 +1,5 @@
 var express = require('express');
-var app = express()
+var app = express();
 // var parser = require('body-parser');
 var multer = require('multer');
 var cors = require('cors');
