@@ -1,12 +1,53 @@
-var React = require('react');
-var Dropzone = require('react-dropzone');
-var ReactDOM = require('react-dom');
-var Nav = require('./nav');
-var Upload = require('./upload');
-var Display = require('./display');
+import React from 'react';
+import Dropzone from 'react-dropzone';
+import ReactDOM from 'react-dom';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import AutoComplete from 'material-ui/AutoComplete';
+import AppBar from 'material-ui/AppBar';
+import Nav from './nav';
+import Upload from './upload';
+import Display from './display';
+import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
+import IconMenu from 'material-ui/IconMenu';
+import IconButton from 'material-ui/IconButton';
+import FontIcon from 'material-ui/FontIcon';
+import NavigationExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-more';
+import MenuItem from 'material-ui/MenuItem';
+import DropDownMenu from 'material-ui/DropDownMenu';
+import RaisedButton from 'material-ui/RaisedButton';
+import FlatButton from 'material-ui/FlatButton';
 require('es6-promise').polyfill();
 require('isomorphic-fetch');
 window.endpoint = 'http://localhost:3000/api';
+
+
+const fruit = [
+  'Apple', 'Apricot', 'Avocado',
+  'Banana', 'Bilberry', 'Blackberry', 'Blackcurrant', 'Blueberry',
+  'Boysenberry', 'Blood Orange',
+  'Cantaloupe', 'Currant', 'Cherry', 'Cherimoya', 'Cloudberry',
+  'Coconut', 'Cranberry', 'Clementine',
+  'Damson', 'Date', 'Dragonfruit', 'Durian',
+  'Elderberry',
+  'Feijoa', 'Fig',
+  'Goji berry', 'Gooseberry', 'Grape', 'Grapefruit', 'Guava',
+  'Honeydew', 'Huckleberry',
+  'Jabouticaba', 'Jackfruit', 'Jambul', 'Jujube', 'Juniper berry',
+  'Kiwi fruit', 'Kumquat',
+  'Lemon', 'Lime', 'Loquat', 'Lychee',
+  'Nectarine',
+  'Mango', 'Marion berry', 'Melon', 'Miracle fruit', 'Mulberry', 'Mandarine',
+  'Olive', 'Orange',
+  'Papaya', 'Passionfruit', 'Peach', 'Pear', 'Persimmon', 'Physalis', 'Plum', 'Pineapple',
+  'Pumpkin', 'Pomegranate', 'Pomelo', 'Purple Mangosteen',
+  'Quince',
+  'Raspberry', 'Raisin', 'Rambutan', 'Redcurrant',
+  'Salal berry', 'Satsuma', 'Star fruit', 'Strawberry', 'Squash', 'Salmonberry',
+  'Tamarillo', 'Tamarind', 'Tomato', 'Tangerine',
+  'Ugli fruit',
+  'Watermelon',
+];
+
 
 class App extends React.Component {
   constructor(props) {
@@ -49,7 +90,6 @@ class App extends React.Component {
   render() {
     return (
         <div>
-          <div className = 'title'> Home Page </div> 
           <Nav 
             handleSearch = {this.handleSearch.bind(this)}
           />
@@ -62,6 +102,7 @@ class App extends React.Component {
     );
   }
 }
+
 
 window.App = App;
 

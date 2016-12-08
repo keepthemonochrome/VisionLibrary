@@ -7,7 +7,7 @@ class Display extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			toDelete: []
+			toDelete: [],
 			display: 'display-photo'
 		}
 	}
