@@ -2,52 +2,9 @@ import React from 'react';
 import Dropzone from 'react-dropzone';
 import ReactDOM from 'react-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import AutoComplete from 'material-ui/AutoComplete';
-import AppBar from 'material-ui/AppBar';
-import Nav from './nav';
-import Upload from './upload';
-import Display from './display';
-import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
-import IconMenu from 'material-ui/IconMenu';
-import IconButton from 'material-ui/IconButton';
-import FontIcon from 'material-ui/FontIcon';
-import NavigationExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-more';
-import MenuItem from 'material-ui/MenuItem';
-import DropDownMenu from 'material-ui/DropDownMenu';
-import RaisedButton from 'material-ui/RaisedButton';
-import FlatButton from 'material-ui/FlatButton';
 require('es6-promise').polyfill();
 require('isomorphic-fetch');
 window.endpoint = 'http://localhost:3000/api';
-
-
-const fruit = [
-  'Apple', 'Apricot', 'Avocado',
-  'Banana', 'Bilberry', 'Blackberry', 'Blackcurrant', 'Blueberry',
-  'Boysenberry', 'Blood Orange',
-  'Cantaloupe', 'Currant', 'Cherry', 'Cherimoya', 'Cloudberry',
-  'Coconut', 'Cranberry', 'Clementine',
-  'Damson', 'Date', 'Dragonfruit', 'Durian',
-  'Elderberry',
-  'Feijoa', 'Fig',
-  'Goji berry', 'Gooseberry', 'Grape', 'Grapefruit', 'Guava',
-  'Honeydew', 'Huckleberry',
-  'Jabouticaba', 'Jackfruit', 'Jambul', 'Jujube', 'Juniper berry',
-  'Kiwi fruit', 'Kumquat',
-  'Lemon', 'Lime', 'Loquat', 'Lychee',
-  'Nectarine',
-  'Mango', 'Marion berry', 'Melon', 'Miracle fruit', 'Mulberry', 'Mandarine',
-  'Olive', 'Orange',
-  'Papaya', 'Passionfruit', 'Peach', 'Pear', 'Persimmon', 'Physalis', 'Plum', 'Pineapple',
-  'Pumpkin', 'Pomegranate', 'Pomelo', 'Purple Mangosteen',
-  'Quince',
-  'Raspberry', 'Raisin', 'Rambutan', 'Redcurrant',
-  'Salal berry', 'Satsuma', 'Star fruit', 'Strawberry', 'Squash', 'Salmonberry',
-  'Tamarillo', 'Tamarind', 'Tomato', 'Tangerine',
-  'Ugli fruit',
-  'Watermelon',
-];
-
 
 class App extends React.Component {
   constructor(props) {
@@ -65,7 +22,7 @@ class App extends React.Component {
         'cffca93f-d4a4-44ed-b4c8-eef160fc8184': true,
 //        {url: 'http://localhost:3000/api/photos/d34cdb08-385d-44fa-9c10-11929882cbba'},
       }, //-------------------check with server
-      
+
     }
 
   }
@@ -77,7 +34,6 @@ class App extends React.Component {
       this.setState({sources: response}) //----------------------------check with server
     });
   }
-// <Display sources = {this.state.sources}/>
   handleDelete (source) {
     delete this.state.sources[source]
     this.setState({sources: this.state.sources});
@@ -89,16 +45,18 @@ class App extends React.Component {
 
   render() {
     return (
+      <MuiThemeProvider>
         <div>
-          <Nav 
+          <Nav
             handleSearch = {this.handleSearch.bind(this)}
           />
-          <Display 
+          <Display
             handleDelete = {this.handleDelete.bind(this)}
             sources = {this.state.sources}
           />
           <Upload />
         </div>
+      </MuiThemeProvider>
     );
   }
 }
@@ -107,6 +65,6 @@ class App extends React.Component {
 window.App = App;
 
 ReactDOM.render(
-	<App />, 
+	<App />,
 	document.getElementById('app')
 );

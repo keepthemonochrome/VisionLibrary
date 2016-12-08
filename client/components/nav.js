@@ -48,10 +48,9 @@ class Nav extends React.Component {
 
 
   }
- 
+
   render() {
     return (
-      <MuiThemeProvider>
         <Toolbar>
           <ToolbarGroup>
             <ToolbarTitle text="SuperSorter" />
@@ -80,16 +79,10 @@ class Nav extends React.Component {
               <MenuItem primaryText="More Info" />
             </IconMenu>
           </ToolbarGroup>
-        </Toolbar>        
-      </MuiThemeProvider>
+        </Toolbar>
     );
   }
 }
 
 
 module.exports = Nav;
-
-
-
-
-
