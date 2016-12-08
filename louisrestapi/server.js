@@ -5,10 +5,14 @@ var multer = require('multer');
 var cors = require('cors');
 var uuid = require('node-uuid').v4;
 
+var path = {
+  photos: __dirname + '/photo_storage'
+};
+// console.log(__dirname)
 // Set max file size to 10MB per photo, max 20 photos, store in uploads/
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, './uploads')
+    cb(null, path.photos)
   },
   filename: function (req, file, cb) {
     cb(null, uuid())
@@ -32,12 +36,18 @@ api.use(cors());
 api.post('/photos', fileupload, (req, res) => {
 	console.log('Received photos');
   // console.log(req.file);
+
   console.log(req.files);
   res.status(201);
 });
 
-api.get('/photos', (req, res) => {
- //[{url: 'http://..', }]
+// api.get('/photos', (req, res) => {
+//  //[{url: 'http://..', }]
+// });
+
+api.get('/photos/:uuid', (req, res) => {
+  let filePath = path.photos + '/' + req.params.uuid;
+  res.sendFile(filePath);
 });
 
 app.use('/api', api);

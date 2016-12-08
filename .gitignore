@@ -8,4 +8,4 @@ dist/
 bundle.js
 bundle.js.map
 
-uploads
+photo_storage/
