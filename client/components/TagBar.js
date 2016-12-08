@@ -7,7 +7,8 @@ import FontIcon from 'material-ui/FontIcon';
 const tagBarStyles = {
   wrapper: {
     display: 'flex',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    justifyContent: 'center'
   }
 }
 

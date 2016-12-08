@@ -7,6 +7,7 @@ var uuid = require('node-uuid').v4;
 var db = require('./config');
 var detection = require('../susanapitest/server/vision/labelDetection');
 var handler = require('./lib/request-handler');
+require('./config/cloudvision.config.js');
 
 var path = {
   photos: __dirname + '/photo_storage'
