@@ -7,7 +7,7 @@ class Display extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			toDelete: []
+			toDelete: [],
 			display: 'display-photo'
 		}
 	}
@@ -26,7 +26,7 @@ class Display extends React.Component {
         {
 		  		 Object.keys(this.props.sources)
 		  	  .map(source => (
-		  		  <img 
+		  		  <img
 		  		    className = {this.state.display}
 		  		    src = {window.endpoint + '/photos/' + source}
 		  		    onClick = {this.handleClick.bind(this)}
@@ -35,9 +35,9 @@ class Display extends React.Component {
 
 		  	  ))
         }
-        <div 
-          className = 'button' 
-          onClick = {this.submitDelete.bind(this)} 
+        <div
+          className = 'button'
+          onClick = {this.submitDelete.bind(this)}
          > Submit Delete </div>
       </div>
 
