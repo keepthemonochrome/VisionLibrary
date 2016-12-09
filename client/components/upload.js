@@ -13,7 +13,8 @@ class Upload extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      open: false
+      open: false,
+      formData: {}
     }
   }
 
@@ -24,14 +25,10 @@ class Upload extends React.Component {
     var formData = new FormData();
     // Attach all accepted files to the form data
     _.each(acceptedFiles, file => formData.append('photos', file));
-
-    // Post files to server endpoint
-    fetch('http://localhost:3000/api/photos', {
-      method: 'POST',
-      body: formData
-    }).then(response => console.log('Got response from server ', response));
+    this.setState({formData: formData})
   }
   handleOpen() {
+    console.log('clicked open')
     this.setState({open: true});
   };
 
@@ -39,33 +36,43 @@ class Upload extends React.Component {
     this.setState({open: false});
   };
 
+  handleSubmit() {
+    this.handleClose();
+    console.log('triggering post request');
+    fetch('http://localhost:3000/api/photos', {
+      method: 'POST',
+      body: this.state.formData
+    })
+    .then(response => console.log('Got response from server ', response))
+    .catch(err => console.log('Error posting: ', err));
+  }
+
   render() {
     const actions = [
       <FlatButton
         label="Cancel"
         primary={true}
-        onTouchTap={this.handleClose}
+        onClick={this.handleClose.bind(this)}
       />,
       <FlatButton
         label="Submit"
         primary={true}
         keyboardFocused={true}
-        onTouchTap={this.handleClose}
+        onClick={this.handleSubmit.bind(this)}
       />,
     ];
 
     return (
       <div>
-        <RaisedButton label="Dialog" onTouchTap={this.handleOpen} />
+        <RaisedButton label="Upload Picture" onClick={this.handleOpen.bind(this)} />
         <Dialog
-          title="Dialog With Actions"
+          title="Load new pictures to server"
           actions={actions}
           modal={false}
           open={this.state.open}
-          onRequestClose={this.handleClose}
+          onRequestClose={this.handleClose.bind(this)}
         >
-          The actions in this window were passed in as an array of React objects.
-          <Dropzone onDrop={this.onDrop}>
+          <Dropzone onDrop={this.onDrop.bind(this)}>
             <div>Try dropping some files here, or click to select files to upload.</div>
           </Dropzone>
         </Dialog>
@@ -73,6 +80,8 @@ class Upload extends React.Component {
     );
   }
 }
+
+
 
 module.exports = Upload;
 

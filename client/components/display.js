@@ -1,16 +1,34 @@
-var React = require('react');
-
+import React from 'react';
+import {GridList, GridTile} from 'material-ui/GridList';
+import IconButton from 'material-ui/IconButton';
+import Subheader from 'material-ui/Subheader';
+import StarBorder from 'material-ui/svg-icons/toggle/star-border';
 require('es6-promise').polyfill();
 require('isomorphic-fetch');
 
 class Display extends React.Component {
+
 	constructor(props) {
 		super(props);
 		this.state = {
 			toDelete: [],
-			display: 'display-photo'
+			display: 'display-photo',
+			styles: {
+			  root: {
+			    display: 'flex',
+			    flexWrap: 'wrap',
+			    justifyContent: 'space-around',
+			  },
+			  gridList: {
+			    width: 500,
+			    height: 450,
+			    overflowY: 'auto',
+			  },				
+			}			
 		}
 	}
+
+
   submitDelete() {
   	this.state.toDelete.forEach(source => {
   		this.props.handleDelete(source);
@@ -22,7 +40,30 @@ class Display extends React.Component {
   }
   render() {
   	return (
-      <div className = 'display-photos'>
+		  <div style={this.state.styles.root}>
+		    <GridList
+		      cellHeight={180}
+		      style={this.state.styles.gridList}
+		    >
+		      <Subheader>Search result</Subheader>
+		      {Object.keys(this.props.sources).map((tile) => (
+		        <GridTile
+		          key={window.endpoint + '/photos/' + tile}
+		          title='keyword1'
+		          subtitle='keyword2'
+		          actionIcon={<IconButton><StarBorder color="white" /></IconButton>}
+		        >
+		          <img src={window.endpoint + '/photos/' + tile} />
+		        </GridTile>
+		      ))}
+		    </GridList>
+		  </div>
+  	)
+  }
+}
+
+module.exports = Display;
+/*      <div className = 'display-photos'>
         {
 		  		 Object.keys(this.props.sources)
 		  	  .map(source => (
@@ -39,15 +80,17 @@ class Display extends React.Component {
           className = 'button'
           onClick = {this.submitDelete.bind(this)}
          > Submit Delete </div>
-      </div>
+       </div>
 
-  		)
-
-
-  }
-}
+/////////////////////// */
 
 
-module.exports = Display;
+
+
+/**
+ * A simple example of a scrollable `GridList` containing a [Subheader](/#/components/subheader).
+ */
+
+
 
 
