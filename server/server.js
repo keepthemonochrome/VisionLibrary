@@ -5,11 +5,17 @@ var multer = require('multer');
 var cors = require('cors');
 var uuid = require('node-uuid').v4;
 var db = require('./config');
+<<<<<<< HEAD
+require('./config/cloudvision.config.js');
+var detection = require('../susanapitest/server/vision/labelDetection');
+var handler = require('./lib/request-handler');
+=======
 var fs = require('fs');
 require('./config/cloudvision.config.js');
 var detection = require('../susanapitest/server/vision/labelDetection');
 var handler = require('./lib/request-handler');
 var _ = require('lodash');
+>>>>>>> ff5958729621722609ed4c50da744c557524e639
 
 // Specify photo storage path
 var path = {
@@ -49,7 +55,7 @@ api.use(parser.json());
 // POST /api/photos
 // Router endpoint for uploading photos uses multipart form data uploads
 api.post('/photos', fileupload, (req, res) => {
-
+ 
   // Receive label from api
   detection.main(req.files[0].path, function(err, labels){
     if (err) {
@@ -59,14 +65,15 @@ api.post('/photos', fileupload, (req, res) => {
       var uuid = req.files[0].filename;
       var fileName = req.files[0].originalname;
       var keywordArray = [];
+      var photoUUIDsArray = [];
       labels.forEach(function(obj){
         if (obj.desc) {
-          console.log('type of obj.dsec', obj.desc, typeof obj.desc);
           keywordArray.push(obj.desc);
+          var singlePhotoUUIDs = {'uuid': uuid, 'scores': obj.score};
+          photoUUIDsArray.push(singlePhotoUUIDs);
         }
       });
-      console.log('keywordArray in server', keywordArray);
-      handler.savePhoto(uuid, fileName, keywordArray);
+      handler.savePhoto(uuid, fileName, keywordArray, photoUUIDsArray);
     }
   });
 
@@ -90,7 +97,10 @@ api.get('/photos', (req, res) => {
 });
 
 api.post('/photos/delete/:uuid', (req, res) => {
-  // TODO delete photo
+  // TODO delete photo//   curl -X POST 'http://localhost:3000/api/photos/delete/fjjj'
+  //handler.savePhoto('nimmy', "fileName",['dog','cat']);//just for testing
+ //handler.deletePhoto(req.params.uu'id);
+  handler.deletePhoto('nimmy');
   res.send('Photo deleted');
 });
 
