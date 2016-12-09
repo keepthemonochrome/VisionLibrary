@@ -75,13 +75,16 @@ api.post('/photos', fileupload, (req, res) => {
 });
 
 api.get('/photos', (req, res) => {
- //[{url: 'http://..', }]
+ let requestURL = getRequestURL(req);
  handler
   .getPhotos()
   .then(photos => {
-    console.log('hi');
-    let photosWithURLs = _.map(photos, photo =>
-      _.assign(photo, {url: getRequestURL(req) + '/' + photo.uuid}));
+    // Turn every mongoose photo doc into a regular object, add a url key, and send it
+    let photosWithURLs = _.map(photos, photo => {
+      photo = photo.toObject();
+      photo['url'] = requestURL + '/' + photo.uuid;
+      return photo;
+    });
     res.json(photosWithURLs);
   });
 });
