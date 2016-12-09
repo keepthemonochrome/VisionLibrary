@@ -58,12 +58,12 @@ const Styles = {
 
 class Nav extends React.Component {
   constructor (props) {
+    props.handleSearch();
     super(props);
-
-
   }
 
   render() {
+
     return (
         <Toolbar style={this.props.style}>
           <ToolbarGroup>

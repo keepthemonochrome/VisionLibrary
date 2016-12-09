@@ -20,7 +20,7 @@ class Display extends React.Component {
 			    justifyContent: 'space-around',
 			  },
 			  gridList: {
-			    width: 500,
+			    width: '90%',
 			    height: 450,
 			    overflowY: 'auto',
 			  },				
@@ -38,19 +38,20 @@ class Display extends React.Component {
     this.setState({display: 'display-photo to-delete'});
     console.log('should delete these files: ' + this.state.toDelete);
   }
+		          // title='keyword1'
+		          // subtitle='keyword2'
   render() {
   	return (
 		  <div style={this.state.styles.root}>
 		    <GridList
 		      cellHeight={180}
+		      cols = {4}
 		      style={this.state.styles.gridList}
 		    >
 		      <Subheader>Search result</Subheader>
 		      {Object.keys(this.props.sources).map((tile) => (
 		        <GridTile
 		          key={window.endpoint + '/photos/' + tile}
-		          title='keyword1'
-		          subtitle='keyword2'
 		          actionIcon={<IconButton><StarBorder color="white" /></IconButton>}
 		        >
 		          <img src={window.endpoint + '/photos/' + tile} />
@@ -63,33 +64,7 @@ class Display extends React.Component {
 }
 
 module.exports = Display;
-/*      <div className = 'display-photos'>
-        {
-		  		 Object.keys(this.props.sources)
-		  	  .map(source => (
-		  		  <img
-		  		    className = {this.state.display}
-		  		    src = {window.endpoint + '/photos/' + source}
-		  		    onClick = {this.handleClick.bind(this)}
 
-		  		  />
-
-		  	  ))
-        }
-        <div
-          className = 'button'
-          onClick = {this.submitDelete.bind(this)}
-         > Submit Delete </div>
-       </div>
-
-/////////////////////// */
-
-
-
-
-/**
- * A simple example of a scrollable `GridList` containing a [Subheader](/#/components/subheader).
- */
 
 
 
