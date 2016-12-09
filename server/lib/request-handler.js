@@ -5,11 +5,11 @@ var photo = require('../models/photo');
 module.exports = {
   savePhoto : function(uuid, fileName, keywordArray){
     // store uuid(filename), fileName(originalname), keyword(result[i].desc) photo table
-    console.log(keywordArray,'in request-handler');
+    console.log('type:',typeof keywordArray);
     new photo({
       uuid: uuid,
       fileName: fileName,
-      keywordArray: keywordArray
+      keywords: keywordArray
     })
     .save(function(err){
       if(err) {

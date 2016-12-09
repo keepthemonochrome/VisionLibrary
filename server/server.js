@@ -50,17 +50,12 @@ api.post('/photos', fileupload, (req, res) => {
       var keywordArray = [];
       labels.forEach(function(obj){
         if (obj.desc) {
+          console.log('type of obj.dsec', obj.desc, typeof obj.desc);
           keywordArray.push(obj.desc);
         }
       });
-      console.log('keywordArray iS THIS:', keywordArray);
-      // pass req.files[0].filename
+      console.log('keywordArray in server', keywordArray);
       handler.savePhoto(uuid, fileName, keywordArray);
-      // console.log(labels);
-
-
-
-      // console.log('length:', req.files.length);
     }
   });
   res.status(201);
