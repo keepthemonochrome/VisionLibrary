@@ -5,9 +5,9 @@ var multer = require('multer');
 var cors = require('cors');
 var uuid = require('node-uuid').v4;
 var db = require('./config');
+require('./config/cloudvision.config.js');
 var detection = require('../susanapitest/server/vision/labelDetection');
 var handler = require('./lib/request-handler');
-require('./config/cloudvision.config.js');
 
 var path = {
   photos: __dirname + '/photo_storage'
@@ -38,7 +38,7 @@ api.use(cors());
 // POST /api/photos
 // Router endpoint for uploading photos uses multipart form data uploads
 api.post('/photos', fileupload, (req, res) => {
-
+ 
   // Receive label from api
   detection.main(req.files[0].path, function(err, labels){
     if (err) {
@@ -66,7 +66,10 @@ api.post('/photos', fileupload, (req, res) => {
 // });
 
 api.post('/photos/delete/:uuid', (req, res) => {
-  // TODO delete photo
+  // TODO delete photo//   curl -X POST 'http://localhost:3000/api/photos/delete/fjjj'
+  //handler.savePhoto('nimmy', "fileName",['dog','cat']);//just for testing
+ //handler.deletePhoto(req.params.uu'id);
+  handler.deletePhoto('nimmy');
   res.send('Photo deleted');
 });
 
