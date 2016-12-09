@@ -3,7 +3,7 @@ var keyword = require('../models/keyword');
 var photo = require('../models/photo');
 
 module.exports = {
-  savePhoto : function(uuid, fileName, keywordArray){
+  savePhoto(uuid, fileName, keywordArray){
     // store uuid(filename), fileName(originalname), keyword(result[i].desc) photo table
     console.log('type:',typeof keywordArray);
     console.log(keywordArray);
@@ -18,20 +18,30 @@ module.exports = {
       } else {
         console.log('photo saved into db');
       }
-    }).then(
-       new keyword ({
-        keyword: 'new',
-        photoUUIDs: [ {'uuid':1, 'scores':10.00 } ]
-      })
-      .save(function(err){
-        if(err) {
-          console.log(err);
-        } else {
-          console.log('key saved');
-        }
-      })
+          })
+    .then(
+      keywordArray.forEach(function(targetKeyword){
+          keyword.count({ keyword: targetKeyword }, function(err, count) {
+            if (count!==0) {
+              console.log('count is not 0');
+            } else {
+              console.log('count is 0');
+            }
+        }).then(
+           new keyword ({
+            keyword: 'new',
+            photoUUIDs: [ {'uuid':1, 'scores':10.00 } ]
+          })
+          .save(function(err){
+            if(err) {
+              console.log(err);
+            } else {
+              console.log('key saved');
+            }
+          })
+        );
+      });
     );
-
   },
   deletePhoto : function(uuid) {
     console.log("inside delete photo and uuid is "+uuid);
@@ -50,6 +60,10 @@ module.exports = {
          keyword.update({$pull: { 'photoUUIDs' : { 'uuid': element}}});
        });
     });
+  },
+  getPhotos() {
+    // Find all photos, then use exec() to return a promise
+    return photo.find({}).exec();
   }
 }
 //db.survey.update( { _id: 1 }, { $pullAll: { scores: [ 0, 5 ] } } )
