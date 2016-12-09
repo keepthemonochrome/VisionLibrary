@@ -67,7 +67,7 @@ module.exports = Display;
         {
 		  		 Object.keys(this.props.sources)
 		  	  .map(source => (
-		  		  <img 
+		  		  <img
 		  		    className = {this.state.display}
 		  		    src = {window.endpoint + '/photos/' + source}
 		  		    onClick = {this.handleClick.bind(this)}
@@ -76,9 +76,9 @@ module.exports = Display;
 
 		  	  ))
         }
-        <div 
-          className = 'button' 
-          onClick = {this.submitDelete.bind(this)} 
+        <div
+          className = 'button'
+          onClick = {this.submitDelete.bind(this)}
          > Submit Delete </div>
        </div>
 

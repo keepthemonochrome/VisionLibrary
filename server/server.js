@@ -5,6 +5,9 @@ var multer = require('multer');
 var cors = require('cors');
 var uuid = require('node-uuid').v4;
 var db = require('./config');
+var detection = require('../susanapitest/server/vision/labelDetection');
+var handler = require('./lib/request-handler');
+require('./config/cloudvision.config.js');
 
 var path = {
   photos: __dirname + '/photo_storage'
@@ -35,10 +38,31 @@ api.use(cors());
 // POST /api/photos
 // Router endpoint for uploading photos uses multipart form data uploads
 api.post('/photos', fileupload, (req, res) => {
-	console.log('Received photos');
-  // console.log(req.file);
 
-  console.log(req.files);
+  // Receive label from api
+  detection.main(req.files[0].path, function(err, labels){
+    if (err) {
+      console.log(err);
+    } else {
+      // TODO: when multiple photos uploaded
+      var uuid = req.files[0].filename;
+      var fileName = req.files[0].originalname;
+      var keywordArray = [];
+      labels.forEach(function(obj){
+        if (obj.desc) {
+          keywordArray.push(obj.desc);
+        }
+      });
+      console.log('keywordArray iS THIS:', keywordArray);
+      // pass req.files[0].filename
+      handler.savePhoto(uuid, fileName, keywordArray);
+      // console.log(labels);
+
+
+
+      // console.log('length:', req.files.length);
+    }
+  });
   res.status(201);
 });
 

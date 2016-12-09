@@ -1,8 +1,12 @@
 
 var mongoose = require('mongoose');
-var keyWordSchema =mongoose.Schema({
+var keywordSchema =mongoose.Schema({
    keyword: {type: String, required: true},
-   photoUUIDs: {type: Array}, // array of objects. [uuid: ...., scores: ...]
+   photoUUIDs: [{
+                uuid: { type: String },
+                scores: { type: String}
+                }]
+                // array of objects. [{uuid: ...., scores: ...}, {..} ]
 });
 
 var Keyword = mongoose.model("KeyWord", keywordSchema);
