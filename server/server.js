@@ -55,14 +55,15 @@ api.post('/photos', fileupload, (req, res) => {
       var uuid = req.files[0].filename;
       var fileName = req.files[0].originalname;
       var keywordArray = [];
+      var photoUUIDsArray = [];
       labels.forEach(function(obj){
         if (obj.desc) {
-          console.log('type of obj.dsec', obj.desc, typeof obj.desc);
           keywordArray.push(obj.desc);
+          var singlePhotoUUIDs = {'uuid': uuid, 'scores': obj.score};
+          photoUUIDsArray.push(singlePhotoUUIDs);
         }
       });
-      console.log('keywordArray in server', keywordArray);
-      handler.savePhoto(uuid, fileName, keywordArray);
+      handler.savePhoto(uuid, fileName, keywordArray, photoUUIDsArray);
     }
   });
   res.status(201);
