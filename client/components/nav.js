@@ -13,6 +13,7 @@ import MenuItem from 'material-ui/MenuItem';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
+import Upload from './upload.js';
 require('es6-promise').polyfill();
 require('isomorphic-fetch');
 
@@ -74,10 +75,7 @@ class Nav extends React.Component {
               maxSearchResults={5}
               underlineStyle={Styles.searchUnderline}
             />
-            <FlatButton
-              icon={<FontIcon className="material-icons">backup</FontIcon>}
-              label="Upload"
-              style={Styles.navButton}/ >
+            <Upload />
             <FlatButton
               icon={<FontIcon className="material-icons">account_circle</FontIcon>}
               label="michaelbdai"
