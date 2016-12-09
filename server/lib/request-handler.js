@@ -57,4 +57,3 @@ module.exports = {
   }
 }
 //db.survey.update( { _id: 1 }, { $pullAll: { scores: [ 0, 5 ] } } )
-}
