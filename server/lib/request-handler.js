@@ -3,7 +3,7 @@ var keyword = require('../models/keyword');
 var photo = require('../models/photo');
 
 module.exports = {
-  savePhoto : function(uuid, fileName, keywordArray){
+  savePhoto(uuid, fileName, keywordArray){
     // store uuid(filename), fileName(originalname), keyword(result[i].desc) photo table
     console.log('type:',typeof keywordArray);
     new photo({
@@ -29,6 +29,10 @@ module.exports = {
         }) //end of count
       }) // end of forEach
     ) // end of then
+  },
+  getPhotos() {
+    // Find all photos, then use exec() to return a promise
+    return photo.find({}).exec();
   }
 }
 

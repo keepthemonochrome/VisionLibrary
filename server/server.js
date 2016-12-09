@@ -1,6 +1,6 @@
 var express = require('express');
 var app = express();
-// var parser = require('body-parser');
+var parser = require('body-parser');
 var multer = require('multer');
 var cors = require('cors');
 var uuid = require('node-uuid').v4;
@@ -9,6 +9,7 @@ var fs = require('fs');
 require('./config/cloudvision.config.js');
 var detection = require('../susanapitest/server/vision/labelDetection');
 var handler = require('./lib/request-handler');
+var _ = require('lodash');
 
 // Specify photo storage path
 var path = {
@@ -36,11 +37,14 @@ var fileupload = multer({
   files: 20
 }).array('photos');
 
+// Pass in the request and get the url that was requested
+let getRequestURL = req => req.protocol + '://' + req.get('host') + req.originalUrl;
+
 // Declare an api router that routes requests from *:/api
 var api = express.Router();
 
 api.use(cors());
-// api.use(parser.json());
+api.use(parser.json());
 
 // POST /api/photos
 // Router endpoint for uploading photos uses multipart form data uploads
@@ -65,12 +69,22 @@ api.post('/photos', fileupload, (req, res) => {
       handler.savePhoto(uuid, fileName, keywordArray);
     }
   });
+
+  console.log('Receiving files ', req.files);
   res.status(201);
 });
 
-// api.get('/photos', (req, res) => {
-//  //[{url: 'http://..', }]
-// });
+api.get('/photos', (req, res) => {
+ //[{url: 'http://..', }]
+ handler
+  .getPhotos()
+  .then(photos => {
+    console.log('hi');
+    let photosWithURLs = _.map(photos, photo =>
+      _.assign(photo, {url: getRequestURL(req) + '/' + photo.uuid}));
+    res.json(photosWithURLs);
+  });
+});
 
 api.post('/photos/delete/:uuid', (req, res) => {
   // TODO delete photo
@@ -85,6 +99,7 @@ api.get('/photos/:uuid', (req, res) => {
 api.get('/keywords/:keyword', (req, res) => {
   // TODO search mongo keyword collection for the keyword and return all photo UUIDs
 });
+
 
 api.get('/keywords', (req, res) => {
   // TODO return all keywords
