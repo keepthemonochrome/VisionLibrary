@@ -74,6 +74,7 @@ class Nav extends React.Component {
               dataSource={fruit}
               maxSearchResults={5}
               underlineStyle={Styles.searchUnderline}
+              onNewRequest={searchStr => console.log(searchStr)}
             />
             <Upload />
             <FlatButton
