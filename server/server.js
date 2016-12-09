@@ -5,13 +5,20 @@ var multer = require('multer');
 var cors = require('cors');
 var uuid = require('node-uuid').v4;
 var db = require('./config');
+var fs = require('fs');
+require('./config/cloudvision.config.js');
 var detection = require('../susanapitest/server/vision/labelDetection');
 var handler = require('./lib/request-handler');
-require('./config/cloudvision.config.js');
 
+// Specify photo storage path
 var path = {
   photos: __dirname + '/photo_storage'
 };
+// Create storage path if it doesn't exist
+if (!fs.existsSync(path.photos)) {
+  fs.mkdirSync(path.photos);
+}
+
 // console.log(__dirname)
 // Set max file size to 10MB per photo, max 20 photos, store in uploads/
 var storage = multer.diskStorage({
