@@ -4,11 +4,22 @@ import ReactDOM from 'react-dom';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
+import FontIcon from 'material-ui/FontIcon';
 import * as _ from 'lodash';
 
 require('es6-promise').polyfill();
 require('isomorphic-fetch');
-
+const Styles = {
+  navButton: {
+    color: 'white'
+  },
+  searchUnderline: {
+    color: '#2196F3'
+  },
+  toolbarTitle: {
+    color: 'white'
+  }
+}
 class Upload extends React.Component {
   constructor(props){
     super(props);
@@ -64,7 +75,12 @@ class Upload extends React.Component {
 
     return (
       <div>
-        <RaisedButton label="Upload Picture" onClick={this.handleOpen.bind(this)} />
+        <FlatButton
+          icon={<FontIcon className="material-icons">backup</FontIcon>}
+          label="Upload"
+          style={Styles.navButton}
+          onClick={this.handleOpen.bind(this)}
+        />        
         <Dialog
           title="Load new pictures to server"
           actions={actions}
