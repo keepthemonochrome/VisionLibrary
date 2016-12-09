@@ -17,20 +17,18 @@ module.exports = {
       } else {
         console.log('photo saved into db');
       }
-    }).then(
-       new keyword ({
-        keyword: 'new',
-        photoUUIDs: [ {'uuid':1, 'scores':10.00 } ]
-      })
-      .save(function(err){
-        if(err) {
-          console.log(err);
-        } else {
-          console.log('key saved');
-        }
-      })
-    );
-
+    })
+    .then(
+      keywordArray.forEach(function(targetKeyword){
+        keyword.count({ keyword: targetKeyword }, function(err, count) {
+          if (count!==0) {
+            console.log('count is not 0');
+          } else {
+            console.log('count is 0');
+          }
+        }) //end of count
+      }) // end of forEach
+    ) // end of then
   }
 }
 
