@@ -13,6 +13,8 @@ import MenuItem from 'material-ui/MenuItem';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
+import Upload from './upload.js';
+import Styles from './Styles'
 require('es6-promise').polyfill();
 require('isomorphic-fetch');
 
@@ -43,23 +45,20 @@ const fruit = [
   'Watermelon',
 ];
 
-const Styles = {
-  navButton: {
-    color: 'white'
-  },
-  searchUnderline: {
-    color: '#2196F3'
-  },
-  toolbarTitle: {
-    color: 'white'
-  }
-}
+// <IconMenu
+//   iconButtonElement={
+//     <IconButton touch={true}>
+//       <NavigationExpandMoreIcon />
+//     </IconButton>
+//   }
+//   >
+//   <MenuItem primaryText="Download" />
+//   <MenuItem primaryText="More Info" />
+// </IconMenu>
 
 class Nav extends React.Component {
   constructor (props) {
     super(props);
-
-
   }
 
   render() {
@@ -67,36 +66,29 @@ class Nav extends React.Component {
         <Toolbar style={this.props.style}>
           <ToolbarGroup>
             <ToolbarTitle text="SuperSorter" style={Styles.toolbarTitle} />
-            <FontIcon className="muidocs-icon-custom-sort" />
-            <AutoComplete
-              filter={AutoComplete.fuzzyFilter}
-              dataSource={fruit}
-              maxSearchResults={5}
-              underlineStyle={Styles.searchUnderline}
+          </ToolbarGroup>
+          <FontIcon className="muidocs-icon-custom-sort" />
+          <AutoComplete
+            filter={AutoComplete.fuzzyFilter}
+            dataSource={fruit}
+            maxSearchResults={5}
+            underlineStyle={Styles.searchUnderline}
+            onNewRequest={searchStr => console.log(searchStr)}
+            fullWidth={true}
             />
-            <FlatButton
-              icon={<FontIcon className="material-icons">backup</FontIcon>}
-              label="Upload"
-              style={Styles.navButton}/ >
+          <ToolbarGroup>
+            <Upload />
             <FlatButton
               icon={<FontIcon className="material-icons">account_circle</FontIcon>}
               label="michaelbdai"
-              style={Styles.navButton} />
-            <IconMenu
-              iconButtonElement={
-                <IconButton touch={true}>
-                  <NavigationExpandMoreIcon />
-                </IconButton>
-              }
-            >
-              <MenuItem primaryText="Download" />
-              <MenuItem primaryText="More Info" />
-            </IconMenu>
+              style={Styles.userButton} />
           </ToolbarGroup>
         </Toolbar>
     );
   }
 }
+// <ToolbarGroup>
+// </ToolbarGroup>
 
 
 module.exports = Nav;

@@ -64,7 +64,6 @@ class App extends React.Component {
             handleDelete = {this.handleDelete.bind(this)}
             sources = {this.state.sources}
           />
-          <Upload />
         </div>
       </MuiThemeProvider>
     );

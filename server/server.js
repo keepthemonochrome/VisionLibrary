@@ -1,14 +1,21 @@
 var express = require('express');
 var app = express();
-// var parser = require('body-parser');
+var parser = require('body-parser');
 var multer = require('multer');
 var cors = require('cors');
 var uuid = require('node-uuid').v4;
 var db = require('./config');
+<<<<<<< HEAD
+require('./config/cloudvision.config.js');
+var detection = require('../susanapitest/server/vision/labelDetection');
+var handler = require('./lib/request-handler');
+=======
 var fs = require('fs');
 require('./config/cloudvision.config.js');
 var detection = require('../susanapitest/server/vision/labelDetection');
 var handler = require('./lib/request-handler');
+var _ = require('lodash');
+>>>>>>> ff5958729621722609ed4c50da744c557524e639
 
 // Specify photo storage path
 var path = {
@@ -36,16 +43,19 @@ var fileupload = multer({
   files: 20
 }).array('photos');
 
+// Pass in the request and get the url that was requested
+let getRequestURL = req => req.protocol + '://' + req.get('host') + req.originalUrl;
+
 // Declare an api router that routes requests from *:/api
 var api = express.Router();
 
 api.use(cors());
-// api.use(parser.json());
+api.use(parser.json());
 
 // POST /api/photos
 // Router endpoint for uploading photos uses multipart form data uploads
 api.post('/photos', fileupload, (req, res) => {
-
+ 
   // Receive label from api
   detection.main(req.files[0].path, function(err, labels){
     if (err) {
@@ -66,15 +76,31 @@ api.post('/photos', fileupload, (req, res) => {
       handler.savePhoto(uuid, fileName, keywordArray, photoUUIDsArray);
     }
   });
+
+  console.log('Receiving files ', req.files);
   res.status(201);
 });
 
-// api.get('/photos', (req, res) => {
-//  //[{url: 'http://..', }]
-// });
+api.get('/photos', (req, res) => {
+ let requestURL = getRequestURL(req);
+ handler
+  .getPhotos()
+  .then(photos => {
+    // Turn every mongoose photo doc into a regular object, add a url key, and send it
+    let photosWithURLs = _.map(photos, photo => {
+      photo = photo.toObject();
+      photo['url'] = requestURL + '/' + photo.uuid;
+      return photo;
+    });
+    res.json(photosWithURLs);
+  });
+});
 
 api.post('/photos/delete/:uuid', (req, res) => {
-  // TODO delete photo
+  // TODO delete photo//   curl -X POST 'http://localhost:3000/api/photos/delete/fjjj'
+  //handler.savePhoto('nimmy', "fileName",['dog','cat']);//just for testing
+ //handler.deletePhoto(req.params.uu'id);
+  handler.deletePhoto('nimmy');
   res.send('Photo deleted');
 });
 
@@ -86,6 +112,7 @@ api.get('/photos/:uuid', (req, res) => {
 api.get('/keywords/:keyword', (req, res) => {
   // TODO search mongo keyword collection for the keyword and return all photo UUIDs
 });
+
 
 api.get('/keywords', (req, res) => {
   // TODO return all keywords

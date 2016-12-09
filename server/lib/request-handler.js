@@ -32,5 +32,29 @@ module.exports = {
         })
       })
       )
+  },
+  deletePhoto : function(uuid) {
+    console.log("inside delete photo and uuid is "+uuid);
+    photo.findOne({'uuid': uuid}, function(err, model) {
+      if(err){
+         console.log("Error in deleting document from the database");
+        return;
+      }
+      console.log("model is ");
+      console.log(model);
+      // uuid (user's)
+      // iterate through all the keywords in model[keywods]
+       model['keywords'].forEach(function(element) {
+         console.log("element is ");
+         console.log(element);
+         keyword.update({$pull: { 'photoUUIDs' : { 'uuid': element}}});
+       });
+    });
+  },
+  getPhotos() {
+    // Find all photos, then use exec() to return a promise
+    return photo.find({}).exec();
   }
+}
+//db.survey.update( { _id: 1 }, { $pullAll: { scores: [ 0, 5 ] } } )
 }

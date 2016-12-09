@@ -4,7 +4,9 @@ import ReactDOM from 'react-dom';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
+import FontIcon from 'material-ui/FontIcon';
 import * as _ from 'lodash';
+import Styles from './Styles';
 
 require('es6-promise').polyfill();
 require('isomorphic-fetch');
@@ -64,7 +66,12 @@ class Upload extends React.Component {
 
     return (
       <div>
-        <RaisedButton label="Upload Picture" onClick={this.handleOpen.bind(this)} />
+        <FlatButton
+          icon={<FontIcon className="material-icons">backup</FontIcon>}
+          label="Upload"
+          style={Styles.uploadButton}
+          onClick={this.handleOpen.bind(this)}
+        />
         <Dialog
           title="Load new pictures to server"
           actions={actions}
@@ -84,6 +91,3 @@ class Upload extends React.Component {
 
 
 module.exports = Upload;
-
-
-
