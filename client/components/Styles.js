@@ -12,7 +12,33 @@ const Styles = {
   },
   toolbarTitle: {
     color: 'white'
-  }
+  },
+  uploadContainer: {
+    display: 'flex',
+    height: 300
+  },
+  dropzone: {
+    width: 250,
+    backgroundColor: 'rgb(226, 226, 226)',
+    border: '1px dashed rgb(139, 139, 139)',
+    padding: 10,
+    flex: '1 0 auto'
+  },
+  fileList: {
+    width: 400,
+    margin: '0 10px 0 10px',
+  },
+  fileListItem: {
+    color: '#64B5F6',
+  },
+
+
+
+
+
+
+  // TEXT
+  uploadDialogTitle: 'Photo Upload',
 }
 
 export default Styles;
