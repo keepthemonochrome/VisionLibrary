@@ -56,24 +56,25 @@ api.use(parser.json());
 api.post('/photos', fileupload, (req, res) => {
 
   // Receive label from api
-  detection.main(req.files[0].path, function(err, labels){
-    if (err) {
-      console.log(err);
-    } else {
-      // TODO: when multiple photos uploaded
-      var uuid = req.files[0].filename;
-      var fileName = req.files[0].originalname;
-      var keywordArray = [];
-      var photoUUIDsArray = [];
-      labels.forEach(function(obj){
-        if (obj.desc) {
-          keywordArray.push(obj.desc);
-          var singlePhotoUUIDs = {'uuid': uuid, 'scores': obj.score};
-          photoUUIDsArray.push(singlePhotoUUIDs);
-        }
-      });
-      handler.savePhoto(uuid, fileName, keywordArray, photoUUIDsArray);
-    }
+  req.files.forEach(file => {
+    detection.main(file.path, function(err, labels){
+      if (err) {
+        console.log(err);
+      } else {
+        var uuid = file.filename;
+        var fileName = file.originalname;
+        var keywordArray = [];
+        var photoUUIDsArray = [];
+        labels.forEach(function(obj){
+          if (obj.desc) {
+            keywordArray.push(obj.desc);
+            var singlePhotoUUIDs = {'uuid': uuid, 'scores': obj.score};
+            photoUUIDsArray.push(singlePhotoUUIDs);
+          }
+        });
+        handler.savePhoto(uuid, fileName, keywordArray, photoUUIDsArray);
+      }
+    });
   });
 
   console.log('Receiving files ', req.files);
