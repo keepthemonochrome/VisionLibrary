@@ -97,11 +97,12 @@ api.get('/photos', (req, res) => {
 });
 
 api.post('/photos/delete/:uuid', (req, res) => {
-  // TODO delete photo//   curl -X POST 'http://localhost:3000/api/photos/delete/fjjj'
-  //handler.savePhoto('nimmy', "fileName",['dog','cat']);//just for testing
- //handler.deletePhoto(req.params.uu'id);
-  handler.deletePhoto('nimmy');
-  res.send('Photo deleted');
+ //handler.savePhoto('nelson', "fileName",['dog','cat']);//just for testing
+ handler.deletePhoto(req.params.uuid)
+ .then( function() {
+  res.end();
+ });
+ 
 });
 
 api.get('/photos/:uuid', (req, res) => {
@@ -116,6 +117,17 @@ api.get('/keywords/:keyword', (req, res) => {
 
 api.get('/keywords', (req, res) => {
   // TODO return all keywords
+  handler
+  .getKeywords()
+  .then(keywords => {
+    console.log(keywords);
+    let keywordList = [];
+    keywords.forEach((keyword)=> {
+      keywordList.push(keyword.keyword);
+    });
+    res.json(keywordList);
+    res.end();
+  });
 });
 
 app.use('/api', api);
