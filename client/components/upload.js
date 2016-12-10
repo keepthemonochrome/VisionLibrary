@@ -88,7 +88,7 @@ class Upload extends React.Component {
               >
               <div>Try dropping some files here, or click to select files to upload.</div>
             </Dropzone>
-            <div>
+            <div style={{overflow: 'auto'}}>
               <FileList fileNames={ this.state.fileNames } />
             </div>
           </div>
