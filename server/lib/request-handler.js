@@ -54,6 +54,9 @@ module.exports = {
   getPhotos() {
     // Find all photos, then use exec() to return a promise
     return photo.find({}).exec();
+  },
+  getKeywords() {
+    return keyword.find({}).exec();
   }
 }
 //db.survey.update( { _id: 1 }, { $pullAll: { scores: [ 0, 5 ] } } )

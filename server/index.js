@@ -115,6 +115,17 @@ api.get('/keywords/:keyword', (req, res) => {
 
 api.get('/keywords', (req, res) => {
   // TODO return all keywords
+  handler
+  .getKeywords()
+  .then(keywords => {
+    console.log(keywords);
+    let keywordList = [];
+    keywords.forEach((keyword)=> {
+      keywordList.push(keyword.keyword);
+    });
+    res.json(keywordList);
+    res.end();
+  });
 });
 
 app.use('/api', api);
