@@ -96,11 +96,12 @@ api.get('/photos', (req, res) => {
 });
 
 api.post('/photos/delete/:uuid', (req, res) => {
-  // TODO delete photo//   curl -X POST 'http://localhost:3000/api/photos/delete/fjjj'
-  //handler.savePhoto('nimmy', "fileName",['dog','cat']);//just for testing
- //handler.deletePhoto(req.params.uu'id);
-  handler.deletePhoto('nimmy');
-  res.send('Photo deleted');
+ //handler.savePhoto('nelson', "fileName",['dog','cat']);//just for testing
+ handler.deletePhoto(req.params.uuid)
+ .then( function() {
+  res.end();
+ });
+ 
 });
 
 api.get('/photos/:uuid', (req, res) => {
