@@ -29,7 +29,8 @@ var storage = multer.diskStorage({
   filename: function (req, file, cb) {
     cb(null, uuid())
   }
-})
+});
+
 
 var fileupload = multer({
   storage: storage,
@@ -40,11 +41,15 @@ var fileupload = multer({
 // Pass in the request and get the url that was requested
 let getRequestURL = req => req.protocol + '://' + req.get('host') + req.originalUrl;
 
+// Serve static files
+app.use('/', express.static('client/public'))
+
 // Declare an api router that routes requests from *:/api
 var api = express.Router();
 
 api.use(cors());
 api.use(parser.json());
+
 
 // POST /api/photos
 // Router endpoint for uploading photos uses multipart form data uploads
