@@ -12,6 +12,22 @@ const Styles = {
   },
   toolbarTitle: {
     color: 'white'
+  },        
+  root: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+  },
+  gridList: {
+    width: '90%',
+    height: '100%',
+    overflowY: 'auto',
+  },
+  selected: {
+    border: '1px solid red',
+  },
+  deleteButton: {
+    color: 'red'
   },
   uploadContainer: {
     display: 'flex',

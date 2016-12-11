@@ -5,6 +5,7 @@ import Display from './display';
 import TagBar from './TagBar';
 import Upload from './upload';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import { map, sortBy, flow } from 'lodash/fp';
 require('es6-promise').polyfill();
 require('isomorphic-fetch');
 window.endpoint = 'http://localhost:3000/api';
@@ -13,8 +14,27 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      sources: {}
+      sources: {},
+      autoCompleteData: [],
+      topEightKeywords: []
     }
+    this.fetchKeywords();
+  }
+
+  fetchKeywords() {
+    fetch('/api/keywords')
+      .then(res => res.json())
+      .then(keywords => {
+        let topEightKeywords = flow([
+          sortBy([k => k.photoUUIDs.length]),
+          map('keyword'),
+          ks => ks.slice(0, 7)
+        ]) (keywords);
+        this.setState({
+          autoCompleteData: map('keyword', keywords),
+          topEightKeywords});
+        console.log(this.state.autoCompleteData);
+      });
   }
 
   handleSearch (keyword = '', limit = 10) {
@@ -45,9 +65,10 @@ class App extends React.Component {
           <Nav
             handleSearch = {this.handleSearch.bind(this)}
             style={{backgroundColor: '#03A9F4'}}
+            autoCompleteData={this.state.autoCompleteData}
             />
           <TagBar
-            tags={['food', 'travel', 'animals']}
+            tags={this.state.topEightKeywords}
             style={{backgroundColor: 'rgb(245, 245, 245)'}}
             tagStyle={{marginRight: 10}}
             />

@@ -10,6 +10,7 @@ require('./config/cloudvision.config.js');
 var detection = require('../susanapitest/server/vision/labelDetection');
 var handler = require('./lib/request-handler');
 var _ = require('lodash');
+var {pick} = require('lodash/fp');
 
 // Specify photo storage path
 var path = {
@@ -56,25 +57,25 @@ api.use(parser.json());
 api.post('/photos', fileupload, (req, res) => {
 
   // Receive label from api
-  console.log("inside the post");
-  detection.main(req.files[0].path, function(err, labels){
-    if (err) {
-      console.log(err);
-    } else {
-      // TODO: when multiple photos uploaded
-      var uuid = req.files[0].filename;
-      var fileName = req.files[0].originalname;
-      var keywordArray = [];
-      var photoUUIDsArray = [];
-      labels.forEach(function(obj){
-        if (obj.desc) {
-          keywordArray.push(obj.desc);
-          var singlePhotoUUIDs = {'uuid': uuid, 'scores': obj.score};
-          photoUUIDsArray.push(singlePhotoUUIDs);
-        }
-      });
-      handler.savePhoto(uuid, fileName, keywordArray, photoUUIDsArray);
-    }
+  req.files.forEach(file => {
+    detection.main(file.path, function(err, labels){
+      if (err) {
+        console.log(err);
+      } else {
+        var uuid = file.filename;
+        var fileName = file.originalname;
+        var keywordArray = [];
+        var photoUUIDsArray = [];
+        labels.forEach(function(obj){
+          if (obj.desc) {
+            keywordArray.push(obj.desc);
+            var singlePhotoUUIDs = {'uuid': uuid, 'scores': obj.score};
+            photoUUIDsArray.push(singlePhotoUUIDs);
+          }
+        });
+        handler.savePhoto(uuid, fileName, keywordArray, photoUUIDsArray);
+      }
+    });
   });
 
   console.log('Receiving files ', req.files);
@@ -98,11 +99,9 @@ api.get('/photos', (req, res) => {
 
 api.post('/photos/delete/:uuid', (req, res) => {
  //handler.savePhoto('nelson', "fileName",['dog','cat']);//just for testing
- console.log("request params id ", req.params.uuid);
   handler.deletePhoto(req.params.uuid, path);
   
- res.end("Ended");
- 
+  res.end("Ended");
 });
 //85e93eee-870e-4727-b7c2-d623d22bc4fc
 
@@ -112,21 +111,23 @@ api.get('/photos/:uuid', (req, res) => {
 });
 
 api.get('/keywords/:keyword', (req, res) => {
-  // TODO search mongo keyword collection for the keyword and return all photo UUIDs
+  handler
+  .getSearchedPhotos(req.params.keyword)
+  .then ((value)=> {
+    console.log(value);
+    res.send(value);
+    res.end();
+  });
 });
 
-
 api.get('/keywords', (req, res) => {
-  // TODO return all keywords
   handler
   .getKeywords()
   .then(keywords => {
     console.log(keywords);
-    let keywordList = [];
-    keywords.forEach((keyword)=> {
-      keywordList.push(keyword.keyword);
-    });
-    res.json(keywordList);
+    // let keywordList = [];
+    let returnData = keywords.map(pick(['keyword', 'photoUUIDs']));
+    res.json(returnData);
     res.end();
   });
 });

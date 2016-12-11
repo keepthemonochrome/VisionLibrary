@@ -68,6 +68,15 @@ module.exports = {
   },
   getKeywords() {
     return keyword.find({}).exec();
+  },
+  getSearchedPhotos(searchWord) {
+    return keyword.findOne({'keyword': searchWord}, function(err, found){
+      if(err) {
+        console.log(err);
+      } else {
+        return found;
+      }
+    });
   }
 }
 //db.survey.update( { _id: 1 }, { $pullAll: { scores: [ 0, 5 ] } } )
