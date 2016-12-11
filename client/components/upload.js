@@ -14,11 +14,12 @@ require('isomorphic-fetch');
 class Upload extends React.Component {
   constructor(props){
     super(props);
-    this.state = {
+    this.originalState = {
       open: false,
       formData: {},
       fileNames: []
-    }
+    };
+    this.state = this.originalState;
   }
 
   onDrop(acceptedFiles, rejectedFiles) {
@@ -37,11 +38,11 @@ class Upload extends React.Component {
   };
 
   handleClose() {
-    this.setState({open: false});
+    this.setState(this.originalState);
   };
 
   handleSubmit() {
-    this.handleClose();
+    this.setState({open: false});
     console.log('triggering post request');
     fetch('http://localhost:3000/api/photos', {
       method: 'POST',
@@ -88,7 +89,7 @@ class Upload extends React.Component {
               >
               <div>Try dropping some files here, or click to select files to upload.</div>
             </Dropzone>
-            <div>
+            <div style={{overflow: 'auto'}}>
               <FileList fileNames={ this.state.fileNames } />
             </div>
           </div>
