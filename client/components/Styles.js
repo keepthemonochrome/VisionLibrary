@@ -12,7 +12,7 @@ const Styles = {
   },
   toolbarTitle: {
     color: 'white'
-  },        
+  },
   root: {
     display: 'flex',
     flexWrap: 'wrap',
@@ -23,8 +23,16 @@ const Styles = {
     height: '100%',
     overflowY: 'auto',
   },
-  selected: {
-    border: '1px solid red',
+  image: {
+    height: 200,
+    flexGrow: 1,
+    margin: '0px 1px 4px 1px',
+    objectFit: 'cover',
+    verticalAlign: 'bottom',
+  },
+  imageSelect: {
+    outline: '5px solid #03A9F4',
+    outlineOffset: -5,
   },
   deleteButton: {
     color: 'red'
@@ -47,7 +55,6 @@ const Styles = {
   fileListItem: {
     color: '#64B5F6',
   },
-
 
 
 
