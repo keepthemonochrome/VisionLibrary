@@ -99,7 +99,7 @@ api.get('/photos', (req, res) => {
     // Turn every mongoose photo doc into a regular object, add a url key, and send it
     let photosWithURLs = _.map(photos, photo => {
       photo = photo.toObject();
-      photo['url'] = requestURL + '/' + photo.uuid;
+      photo['url'] = requestURL + '/' + photo.uuid + '-thumb';
       return photo;
     });
     res.json(photosWithURLs);
