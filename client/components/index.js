@@ -37,11 +37,23 @@ class App extends React.Component {
       });
   }
 
+  loadAllPhoto () {
+    fetch(window.endpoint + '/photos', {method: 'GET'})
+      .then(response =>  response.json())
+      .then(json => {
+        var result = json.reduce((result, element) => {
+          result[element.uuid] = element.keywords;
+          return result;
+        },{});
+        this.setState({sources: result})
+      });
+  }
+
   handleSearch (keyword = '', limit = 10) {
-    fetch(window.endpoint + '/photos/' + keyword, {method: 'GET'})
+    fetch(window.endpoint + '/keywords/' + keyword, {method: 'GET'})
     .then(response =>  response.json())
     .then(json => {
-      var result = json.reduce((result, element) => {
+      var result = json.photoUUIDs.reduce((result, element) => {
         result[element.uuid] = element.keywords;
         return result;
       },{});
@@ -51,7 +63,6 @@ class App extends React.Component {
   handleDelete (source) {
     delete this.state.sources[source]
     this.setState({sources: this.state.sources});
-
     fetch(window.endpoint + '/phones/delete/' + source, {method: 'POST'})
     .then(response => {
       console.log('Deleted one picture, response from server: ' + response);
@@ -74,6 +85,7 @@ class App extends React.Component {
             />
 
           <Display
+            loadAllPhoto = {this.loadAllPhoto.bind(this)}
             handleDelete = {this.handleDelete.bind(this)}
             sources = {this.state.sources}
           />

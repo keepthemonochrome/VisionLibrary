@@ -23,8 +23,8 @@ class ClickableGridTile extends React.Component {
 				this.props.addElement(tile);
 			} else {
 				this.props.removeElement(tile);
-			}			
-		});		  
+			}
+		});
 	}
 
 	render() {
@@ -38,15 +38,16 @@ class ClickableGridTile extends React.Component {
         style = {style}
       >
         <img src={this.props.src} />
-      </GridTile>			
+      </GridTile>
 		);
-		
+
 	}
 }
 
 class Display extends React.Component {
 
 	constructor(props) {
+    props.loadAllPhoto();
 		super(props);
 		this.state = {
 			selectedElement: {},
@@ -57,7 +58,7 @@ class Display extends React.Component {
   submitDelete() {
   	console.log('need to submit delete request to server for these photos');
   	console.log(this.state.selectedElement);
-  	
+
   }
   addElement(uuid) {
     let selectedElement = this.state.selectedElement;
@@ -77,7 +78,7 @@ class Display extends React.Component {
         <FlatButton
           icon={<FontIcon className="material-icons">delete</FontIcon>}
           label="Delete Selected Photos"
-          style={Styles.deleteButton} 
+          style={Styles.deleteButton}
           onClick={this.submitDelete.bind(this)}
         />
 		    <GridList
