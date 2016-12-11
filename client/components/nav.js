@@ -20,7 +20,7 @@ require('isomorphic-fetch');
 
 class Nav extends React.Component {
   constructor (props) {
-    props.handleSearch();
+    props.handleSearch();// need to change to activate search
     super(props);
     console.log(props.autoCompleteData);
   }

@@ -6,6 +6,7 @@ var cors = require('cors');
 var uuid = require('node-uuid').v4;
 var db = require('./config');
 var fs = require('fs');
+var im = require('imagemagick');
 require('./config/cloudvision.config.js');
 var detection = require('../susanapitest/server/vision/labelDetection');
 var handler = require('./lib/request-handler');
@@ -74,6 +75,14 @@ api.post('/photos', fileupload, (req, res) => {
           }
         });
         handler.savePhoto(uuid, fileName, keywordArray, photoUUIDsArray);
+        var newPath = path.photos +'/' + uuid;
+        im.resize({
+          srcData: fs.readFileSync(newPath, 'binary'),
+          width: 200
+        }, function(err, stdout, stderr){
+          if (err) throw err;
+          fs.writeFileSync(newPath + '-thumb', stdout, 'binary');
+        });
       }
     });
   });

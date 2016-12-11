@@ -24,7 +24,7 @@ const Styles = {
     overflowY: 'auto',
   },
   selected: {
-    border: '1px solid red',
+    border: '5px solid red',
   },
   deleteButton: {
     color: 'red'
