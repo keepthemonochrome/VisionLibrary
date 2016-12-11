@@ -13,7 +13,6 @@ class Nav extends React.Component {
   constructor (props) {
 
     super(props);
-    console.log(props.autoCompleteData);
   }
 
   render() {
@@ -31,6 +30,7 @@ class Nav extends React.Component {
             onNewRequest={searchStr => this.props.handleSearch(searchStr, 10)}
             fullWidth={true}
             inputStyle={{color: 'white'}}
+            id='navSearch'
             />
           <ToolbarGroup>
             <Upload />

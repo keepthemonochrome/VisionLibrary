@@ -48,20 +48,24 @@ class ClickableTile extends React.Component {
 			assign(Styles.imageSelect, Styles.image) : Styles.image;
 		return (
 			<div style={Styles.imageCtr}>
+				<div>
+					<img
+						src={this.props.src}
+						onClick={this.handleClick.bind(this, this.props.uuid)}
+						style={style} />
+				</div>
 				<Dialog
 					open={this.state.open}
 					contentStyle={ Styles.imageDialog }
 					onRequestClose={this.setState.bind(this, {open: false})}>
-					<div style={{display: 'flex', justifyContent: 'center', backgroundColor: 'black'}}>
-						<img src={'/api/photos/' + this.props.uuid} style={Styles.bigImage} />
+					<div style={
+							assign(Styles.imageDialogContainer,
+								{ backgroundImage: `url(${'/api/photos/' + this.props.uuid})`}) }>
 					</div>
 				</Dialog>
-				<img
-					src={this.props.src}
-					onClick={this.handleClick.bind(this, this.props.uuid)}
-					style={style} />
 			</div>
 		);
+		// <img src={d} style={Styles.bigImage} />
 
 	}
 }

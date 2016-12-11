@@ -43,14 +43,23 @@ const Styles = {
   },
   imageDialog: {
     // width: '95%',
-    // height: '30%',
-    // maxWidth: 'none',
+    // height: '500px',
+    maxWidth: 'none',
     // maxHeight: 'none',
+  },
+  imageDialogContainer: {
+    // display: 'flex',
+    // justifyContent: 'center',
+    // backgroundColor: 'black',
+    maxWidth: '100vw',
+    // maxHeight: '50vh',
+    backgroundSize: 'contain',
+    backgroundRepeat: 'no-repeat',
+    height: '100vh',
+    width: '100%',
   },
   bigImage: {
     // objectFit: 'contain',
-    // maxWidth: '100%',
-    // maxHeight: '100%'
   },
   deleteButton: {
     color: 'red'
