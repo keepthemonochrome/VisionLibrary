@@ -49,7 +49,10 @@ class Upload extends React.Component {
       method: 'POST',
       body: this.state.formData
     })
-    .then(response => console.log('Got response from server ', response))
+    .then(response => {
+      console.log('Got response from server ', response);
+      this.setState(this.originalState);
+    })
     .catch(err => console.log('Error posting: ', err));
   }
 
