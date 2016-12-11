@@ -11,13 +11,11 @@ require('isomorphic-fetch');
 
 class Nav extends React.Component {
   constructor (props) {
-    props.handleSearch();
     super(props);
     console.log(props.autoCompleteData);
   }
 
   render() {
-
     return (
         <Toolbar style={this.props.style}>
           <ToolbarGroup>
@@ -29,7 +27,7 @@ class Nav extends React.Component {
             dataSource={this.props.autoCompleteData}
             maxSearchResults={5}
             underlineStyle={Styles.searchUnderline}
-            onNewRequest={searchStr => console.log(searchStr)}
+            onNewRequest={searchStr => this.props.handleSearch(searchStr, 10)}
             fullWidth={true}
             inputStyle={{color: 'white'}}
             />

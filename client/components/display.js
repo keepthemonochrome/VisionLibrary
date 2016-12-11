@@ -70,6 +70,7 @@ class ClickableTile extends React.Component {
 class Display extends React.Component {
 
 	constructor(props) {
+    props.loadAllPhoto();
 		super(props);
 		this.state = {
 			selectedElement: {},
