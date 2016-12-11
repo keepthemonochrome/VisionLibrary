@@ -56,6 +56,7 @@ api.use(parser.json());
 api.post('/photos', fileupload, (req, res) => {
 
   // Receive label from api
+  console.log("inside the post");
   detection.main(req.files[0].path, function(err, labels){
     if (err) {
       console.log(err);
@@ -97,12 +98,13 @@ api.get('/photos', (req, res) => {
 
 api.post('/photos/delete/:uuid', (req, res) => {
  //handler.savePhoto('nelson', "fileName",['dog','cat']);//just for testing
- handler.deletePhoto(req.params.uuid)
- .then( function() {
-  res.end();
- });
+ console.log("request params id ", req.params.uuid);
+  handler.deletePhoto(req.params.uuid, path);
+  
+ res.end("Ended");
  
 });
+//85e93eee-870e-4727-b7c2-d623d22bc4fc
 
 api.get('/photos/:uuid', (req, res) => {
   let filePath = path.photos + '/' + req.params.uuid;
