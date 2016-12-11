@@ -9,9 +9,6 @@ import each from 'lodash/each';
 import FileList from './FileList';
 import Styles from './Styles';
 
-require('es6-promise').polyfill();
-require('isomorphic-fetch');
-
 class Upload extends React.Component {
   constructor(props){
     super(props);

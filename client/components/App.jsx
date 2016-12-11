@@ -1,4 +1,5 @@
 import React from 'react';
+import { Router, Route, IndexRoute, Link, hashHistory } from 'react-router'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import map from 'lodash/fp/map';
@@ -10,8 +11,6 @@ import Display from './Display';
 import TagBar from './TagBar';
 import Upload from './Upload';
 
-require('es6-promise').polyfill();
-require('isomorphic-fetch');
 window.endpoint = 'http://localhost:3000/api';
 
 export default class App extends React.Component {
@@ -91,8 +90,14 @@ export default class App extends React.Component {
             handleDelete = {this.handleDelete.bind(this)}
             sources = {this.state.sources}
             />
+
+          { this.props.children }
         </div>
       </MuiThemeProvider>
     );
   }
 }
+
+// <Router history={hashHistory}>
+//   <Route path='/' component={App} />
+// </Router>

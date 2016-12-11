@@ -5,9 +5,6 @@ import FontIcon from 'material-ui/FontIcon';
 import Dialog from 'material-ui/Dialog';
 import assign from 'lodash/assign';
 import Styles from './Styles';
-require('es6-promise').polyfill();
-require('isomorphic-fetch');
-
 
 class ClickableTile extends React.Component {
 	constructor(props) {

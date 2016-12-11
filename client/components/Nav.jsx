@@ -6,8 +6,6 @@ import FontIcon from 'material-ui/FontIcon';
 import FlatButton from 'material-ui/FlatButton';
 import Upload from './Upload';
 import Styles from './Styles'
-require('es6-promise').polyfill();
-require('isomorphic-fetch');
 
 class Nav extends React.Component {
   constructor (props) {

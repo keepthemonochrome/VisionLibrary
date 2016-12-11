@@ -2,16 +2,16 @@ var path = require('path');
 var webpack = require('webpack');
 
 module.exports = {
-  entry: "./client/components/index.jsx",
+  entry: ['babel-polyfill', './client/components/index.jsx'],
   output: {
     path: path.join(__dirname, 'client/public'),
-    filename: "bundle.js"
+    filename: 'bundle.js'
   },
   module: {
     loaders: [
       {
         test: /\.css$/,
-        loader: "style-loader!css-loader"
+        loader: 'style-loader!css-loader'
       },
       {
         loader: 'babel-loader',
@@ -33,7 +33,7 @@ module.exports = {
           }
       })
   ],
-  
+
   resolve: {
     extensions: ['', '.js', '.jsx', '.css'],
   },
