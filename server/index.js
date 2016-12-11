@@ -112,9 +112,14 @@ api.get('/photos/:uuid', (req, res) => {
 });
 
 api.get('/keywords/:keyword', (req, res) => {
-  // TODO search mongo keyword collection for the keyword and return all photo UUIDs
+  handler
+  .getSearchedPhotos(req.params.keyword)
+  .then ((value)=> {
+    console.log(value);
+    res.send(value.photoUUIDs);
+    res.end();
+  });
 });
-
 
 api.get('/keywords', (req, res) => {
   handler
