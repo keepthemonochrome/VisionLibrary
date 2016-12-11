@@ -1,11 +1,11 @@
 import React from 'react';
 import IconButton from 'material-ui/IconButton';
 import Subheader from 'material-ui/Subheader';
-import StarBorder from 'material-ui/svg-icons/toggle/star-border';
-import Styles from './Styles';
 import FlatButton from 'material-ui/FlatButton';
 import FontIcon from 'material-ui/FontIcon';
+import Dialog from 'material-ui/Dialog';
 import {assign} from 'lodash';
+import Styles from './Styles';
 require('es6-promise').polyfill();
 require('isomorphic-fetch');
 
@@ -13,29 +13,55 @@ require('isomorphic-fetch');
 class ClickableTile extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = { clicked: false }
+		this.state = {
+			selected: false,
+			open: false,
+			canDoubleClick: false
+		}
 	}
 
 	handleClick(uuid) {
-		this.setState({ clicked: !this.state.clicked },()=> {
-			if (this.state.clicked) {
-				this.props.addElement(uuid);
-			} else {
-				this.props.removeElement(uuid);
-			}
-		});
+		if (this.state.canDoubleClick) {
+			this.onDoubleClick();
+		} else {
+			this.setState({
+				selected: true,
+				canDoubleClick: true,
+			},
+			() => {
+				if (this.state.selected) {
+					this.props.addElement(uuid);
+				} else {
+					this.props.removeElement(uuid);
+				}
+			});
+			setTimeout(() => this.setState({canDoubleClick: false}), 500);
+		}
+	}
+
+	onDoubleClick() {
+		console.log('doubleclick detected');
+		this.setState({ open: true });
 	}
 
 	render() {
-		let style = this.state.clicked ?
+		let style = this.state.selected ?
 			assign(Styles.imageSelect, Styles.image) : Styles.image;
-		console.log(style);
-		// console.log(this.state.clicked);
 		return (
-			<img
-				src={this.props.src}
-				style={style}
-				onClick={this.handleClick.bind(this, this.props.uuid)} />
+			<div style={Styles.imageCtr}>
+				<Dialog
+					open={this.state.open}
+					contentStyle={ Styles.imageDialog }
+					onRequestClose={this.setState.bind(this, {open: false})}>
+					<div style={{display: 'flex', justifyContent: 'center', width: '100%', height: '100%', backgroundColor: 'black'}}>
+						<img src={this.props.src} style={Styles.bigImage} />
+					</div>
+				</Dialog>
+				<img
+					src={this.props.src}
+					onClick={this.handleClick.bind(this, this.props.uuid)}
+					style={style} />
+			</div>
 		);
 
 	}
@@ -48,6 +74,7 @@ class Display extends React.Component {
 		this.state = {
 			selectedElement: {},
 			display: 'display-photo',
+			sources: this.props.sources
 		}
 	}
 
@@ -82,7 +109,11 @@ class Display extends React.Component {
 			<section style={{display: 'flex', flexWrap: 'wrap'}}>
 				{
 					Object.keys(this.props.sources).map((uuid) => {
-						return (<ClickableTile src={'/api/photos/' + uuid} uuid={uuid} />);
+						return (<ClickableTile
+							key={uuid}
+							src={'/api/photos/' + uuid}
+							uuid={uuid}
+							/>);
 					})
 				}
 			</section>

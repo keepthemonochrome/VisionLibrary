@@ -25,14 +25,30 @@ const Styles = {
   },
   image: {
     height: 200,
-    flexGrow: 1,
-    margin: '0px 1px 4px 1px',
     objectFit: 'cover',
+    maxWidth: '100%',
+    minWidth: '100%',
     verticalAlign: 'bottom',
   },
   imageSelect: {
     outline: '5px solid #03A9F4',
     outlineOffset: -5,
+  },
+  imageCtr: {
+    height: 200,
+    flexGrow: 1,
+    backgroundColor: 'rgb(159, 159, 159)',
+    margin: '0px 1px 4px 1px',
+  },
+  imageDialog: {
+    width: '95%',
+    height: '30%',
+    maxWidth: 'none',
+    maxHeight: 'none',
+  },
+  bigImage: {
+    maxWidth: '100%',
+    maxHeight: '100%'
   },
   deleteButton: {
     color: 'red'
