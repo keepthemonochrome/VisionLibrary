@@ -78,7 +78,7 @@ api.post('/photos', fileupload, (req, res) => {
         var newPath = path.photos +'/' + uuid;
         im.resize({
           srcData: fs.readFileSync(newPath, 'binary'),
-          width: 200
+          height: 200
         }, function(err, stdout, stderr){
           if (err) throw err;
           fs.writeFileSync(newPath + '-thumb', stdout, 'binary');
