@@ -99,7 +99,8 @@ api.get('/photos', (req, res) => {
     // Turn every mongoose photo doc into a regular object, add a url key, and send it
     let photosWithURLs = _.map(photos, photo => {
       photo = photo.toObject();
-      photo['url'] = requestURL + '/' + photo.uuid + '-thumb';
+      photo['url'] = requestURL + '/' + photo.uuid;
+      photo['thumbUrl'] = requestURL + '/' + photo.uuid + '-thumb';
       return photo;
     });
     res.json(photosWithURLs);
@@ -109,7 +110,7 @@ api.get('/photos', (req, res) => {
 api.post('/photos/delete/:uuid', (req, res) => {
  //handler.savePhoto('nelson', "fileName",['dog','cat']);//just for testing
   handler.deletePhoto(req.params.uuid, path);
-  
+
   res.end("Ended");
 });
 //85e93eee-870e-4727-b7c2-d623d22bc4fc

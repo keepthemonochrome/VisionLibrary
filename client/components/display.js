@@ -54,7 +54,7 @@ class ClickableTile extends React.Component {
 					contentStyle={ Styles.imageDialog }
 					onRequestClose={this.setState.bind(this, {open: false})}>
 					<div style={{display: 'flex', justifyContent: 'center', backgroundColor: 'black'}}>
-						<img src={this.props.src} style={Styles.bigImage} />
+						<img src={'/api/photos/' + this.props.uuid} style={Styles.bigImage} />
 					</div>
 				</Dialog>
 				<img
@@ -112,7 +112,7 @@ class Display extends React.Component {
 					Object.keys(this.props.sources).map((uuid) => {
 						return (<ClickableTile
 							key={uuid}
-							src={'/api/photos/' + uuid}
+							src={'/api/photos/' + uuid + '-thumb'}
 							uuid={uuid}
 							/>);
 					})
