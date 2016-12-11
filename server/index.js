@@ -114,7 +114,7 @@ api.get('/keywords/:keyword', (req, res) => {
   .getSearchedPhotos(req.params.keyword)
   .then ((value)=> {
     console.log(value);
-    res.send(value.photoUUIDs);
+    res.send(value);
     res.end();
   });
 });
