@@ -29,8 +29,7 @@ const TagBar = props => {
               <Chip
                 className='tag'
                 style={props.tagStyle}
-                key={t}
-                onRequestDelete={() => null}>
+                key={t}>
                 {t}
               </Chip>)
           }
