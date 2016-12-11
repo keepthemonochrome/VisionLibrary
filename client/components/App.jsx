@@ -10,6 +10,7 @@ import Nav from './Nav';
 import Display from './Display';
 import TagBar from './TagBar';
 import Upload from './Upload';
+import BigImageView from './BigImageView';
 
 window.endpoint = 'http://localhost:3000/api';
 
@@ -19,7 +20,9 @@ export default class App extends React.Component {
     this.state = {
       sources: {},
       autoCompleteData: [],
-      topEightKeywords: []
+      topEightKeywords: [],
+      bigImageSrc: '/api/photos/3dcce3ca-eebd-494e-b9a6-6bb8284bea8f',
+      bigImageOpen: false
     }
     this.fetchKeywords();
   }
@@ -62,6 +65,7 @@ export default class App extends React.Component {
       this.setState({sources: result})
     });
   }
+
   handleDelete (source) {
     delete this.state.sources[source]
     this.setState({sources: this.state.sources});
@@ -71,10 +75,17 @@ export default class App extends React.Component {
     })
   }
 
+  onThumbDblClick(src) {
+    this.setState({
+      bigImageOpen: true,
+      bigImageSrc: src
+    });
+  }
+
   render() {
     return (
       <MuiThemeProvider>
-        <div>
+        <div className='stretch'>
           <Nav
             handleSearch = {this.handleSearch.bind(this)}
             style={{backgroundColor: '#03A9F4'}}
@@ -85,19 +96,25 @@ export default class App extends React.Component {
             style={{backgroundColor: 'rgb(245, 245, 245)'}}
             tagStyle={{marginRight: 10}}
             />
-          <Display
-            loadAllPhoto = {this.loadAllPhoto.bind(this)}
-            handleDelete = {this.handleDelete.bind(this)}
-            sources = {this.state.sources}
-            />
-
-          { this.props.children }
+          {this.state.bigImageOpen ?
+            this.renderBigImageView() : this.renderDisplay() }
         </div>
       </MuiThemeProvider>
     );
   }
-}
 
-// <Router history={hashHistory}>
-//   <Route path='/' component={App} />
-// </Router>
+  renderBigImageView() {
+    return (
+      <BigImageView src={ this.state.bigImageSrc } />
+    );
+  }
+
+  renderDisplay() {
+    return (<Display
+      loadAllPhoto = {this.loadAllPhoto.bind(this)}
+      handleDelete = {this.handleDelete.bind(this)}
+      thumbDblClick={this.onThumbDblClick.bind(this)}
+      sources = {this.state.sources}
+      />);
+  }
+}

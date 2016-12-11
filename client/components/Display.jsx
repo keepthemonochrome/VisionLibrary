@@ -2,7 +2,6 @@ import React from 'react';
 import Subheader from 'material-ui/Subheader';
 import FlatButton from 'material-ui/FlatButton';
 import FontIcon from 'material-ui/FontIcon';
-import Dialog from 'material-ui/Dialog';
 import assign from 'lodash/assign';
 import Styles from './Styles';
 
@@ -11,7 +10,6 @@ class ClickableTile extends React.Component {
 		super(props);
 		this.state = {
 			selected: false,
-			open: false,
 			canDoubleClick: false
 		}
 	}
@@ -36,8 +34,8 @@ class ClickableTile extends React.Component {
 	}
 
 	onDoubleClick() {
-		console.log('doubleclick detected');
-		this.setState({ open: true });
+		console.log('doubleclick detected', this.props.thumbDblClick);
+		this.props.thumbDblClick('/api/photos/' + this.props.uuid);
 	}
 
 	render() {
@@ -51,19 +49,8 @@ class ClickableTile extends React.Component {
 						onClick={this.handleClick.bind(this, this.props.uuid)}
 						style={style} />
 				</div>
-				<Dialog
-					open={this.state.open}
-					contentStyle={ Styles.imageDialog }
-					onRequestClose={this.setState.bind(this, {open: false})}>
-					<div style={
-							assign(Styles.imageDialogContainer,
-								{ backgroundImage: `url(${'/api/photos/' + this.props.uuid})`}) }>
-					</div>
-				</Dialog>
 			</div>
 		);
-		// <img src={d} style={Styles.bigImage} />
-
 	}
 }
 
@@ -114,6 +101,7 @@ class Display extends React.Component {
 							key={uuid}
 							src={'/api/photos/' + uuid + '-thumb'}
 							uuid={uuid}
+							thumbDblClick={this.props.thumbDblClick}
 							/>);
 					})
 				}
