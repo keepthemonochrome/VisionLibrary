@@ -1,13 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Nav from './nav';
-import Display from './display';
-import TagBar from './TagBar';
-import Upload from './upload';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
 import map from 'lodash/fp/map';
 import sortBy from 'lodash/fp/sortBy';
 import flow from 'lodash/fp/flow';
+
+import Nav from './Nav';
+import Display from './Display';
+import TagBar from './TagBar';
+import Upload from './Upload';
+
 require('es6-promise').polyfill();
 require('isomorphic-fetch');
 window.endpoint = 'http://localhost:3000/api';

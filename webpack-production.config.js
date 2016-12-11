@@ -2,7 +2,7 @@ var path = require('path');
 var webpack = require('webpack');
 
 module.exports = {
-  entry: "./client/components/index.js",
+  entry: "./client/components/index.jsx",
   output: {
     path: path.join(__dirname, 'client/public'),
     filename: "bundle.js"
@@ -15,7 +15,7 @@ module.exports = {
       },
       {
         loader: 'babel-loader',
-        test: /\.js$/,
+        test: /\.js(|x)$/,
         exclude: /(node_modules|bower_components)/,
         query: {
           presets: ['es2015', 'react'],

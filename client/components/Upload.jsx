@@ -5,8 +5,9 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import FontIcon from 'material-ui/FontIcon';
 import each from 'lodash/each';
-import Styles from './Styles';
+
 import FileList from './FileList';
+import Styles from './Styles';
 
 require('es6-promise').polyfill();
 require('isomorphic-fetch');
