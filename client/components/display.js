@@ -21,13 +21,12 @@ class Display extends React.Component {
 			  },
 			  gridList: {
 			    width: '90%',
-			    height: 450,
+			    height: '100%',
 			    overflowY: 'auto',
-			  },				
-			}			
+			  },
+			}
 		}
 	}
-
 
   submitDelete() {
   	this.state.toDelete.forEach(source => {
@@ -64,8 +63,3 @@ class Display extends React.Component {
 }
 
 module.exports = Display;
-
-
-
-
-

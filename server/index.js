@@ -10,6 +10,7 @@ require('./config/cloudvision.config.js');
 var detection = require('../susanapitest/server/vision/labelDetection');
 var handler = require('./lib/request-handler');
 var _ = require('lodash');
+var {pick} = require('lodash/fp');
 
 // Specify photo storage path
 var path = {
@@ -102,7 +103,7 @@ api.post('/photos/delete/:uuid', (req, res) => {
  .then( function() {
   res.end();
  });
- 
+
 });
 
 api.get('/photos/:uuid', (req, res) => {
@@ -116,16 +117,13 @@ api.get('/keywords/:keyword', (req, res) => {
 
 
 api.get('/keywords', (req, res) => {
-  // TODO return all keywords
   handler
   .getKeywords()
   .then(keywords => {
     console.log(keywords);
-    let keywordList = [];
-    keywords.forEach((keyword)=> {
-      keywordList.push(keyword.keyword);
-    });
-    res.json(keywordList);
+    // let keywordList = [];
+    let returnData = keywords.map(pick(['keyword', 'photoUUIDs']));
+    res.json(returnData);
     res.end();
   });
 });
