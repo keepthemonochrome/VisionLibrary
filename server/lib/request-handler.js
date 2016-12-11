@@ -3,6 +3,7 @@ var keyword = require('../models/keyword');
 var photo = require('../models/photo');
 var thumb = require('node-thumbnail').thumb;
 
+var fs = require('fs');
 module.exports = {
   savePhoto : function(uuid, fileName, keywordArray, photoUUIDsArray){
     console.log("inside save photo");
@@ -35,7 +36,9 @@ module.exports = {
       })
       )
   },
-  deletePhoto : function(uuid) {
+  //6890e033-bf46-4887-8da6-fceb9c15e395
+  deletePhoto : function(uuid, path) {
+    console.log("inside delete photo");
     photo.findOneAndRemove({'uuid': uuid})
     .then(function(model, err) {
       if(err) {
@@ -43,17 +46,23 @@ module.exports = {
       } else {
           model['keywords'].forEach(function(element) {
           keyword.update({'keyword': element},{$pull: { 'photoUUIDs' : { 'uuid': uuid}}})
-          .then(function(model, error){
-          if(error){
-            console.log("Error in updating keywords table, "+ error);
-            console.log(error);
-          }
-         });
+          .then(function () {
+            fs.unlink(path.photos+'/'+uuid, function (err) {
+             if(err) {
+              console.log(err);
+             } else {
+              console.log("Successfully deleted");
+             }
+            })
+          });
        });
       }
-    });
+    })
+
 
   },
+  
+
   getPhotos() {
     // Find all photos, then use exec() to return a promise
     return photo.find({}).exec();
