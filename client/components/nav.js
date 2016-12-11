@@ -11,6 +11,7 @@ require('isomorphic-fetch');
 
 class Nav extends React.Component {
   constructor (props) {
+
     super(props);
     console.log(props.autoCompleteData);
   }

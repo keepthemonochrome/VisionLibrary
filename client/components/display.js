@@ -53,7 +53,7 @@ class ClickableTile extends React.Component {
 					open={this.state.open}
 					contentStyle={ Styles.imageDialog }
 					onRequestClose={this.setState.bind(this, {open: false})}>
-					<div style={{display: 'flex', justifyContent: 'center', width: '100%', height: '100%', backgroundColor: 'black'}}>
+					<div style={{display: 'flex', justifyContent: 'center', backgroundColor: 'black'}}>
 						<img src={this.props.src} style={Styles.bigImage} />
 					</div>
 				</Dialog>

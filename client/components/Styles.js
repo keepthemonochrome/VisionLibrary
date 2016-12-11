@@ -23,6 +23,7 @@ const Styles = {
     height: '100%',
     overflowY: 'auto',
   },
+
   image: {
     height: 200,
     objectFit: 'cover',
@@ -49,7 +50,7 @@ const Styles = {
   bigImage: {
     objectFit: 'contain',
     maxWidth: '100%',
-    maxHeight: '30%'
+    maxHeight: '100%'
   },
   deleteButton: {
     color: 'red'

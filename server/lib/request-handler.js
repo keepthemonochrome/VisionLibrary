@@ -1,6 +1,7 @@
 var db = require('../config');
 var keyword = require('../models/keyword');
 var photo = require('../models/photo');
+var thumb = require('node-thumbnail').thumb;
 
 var fs = require('fs');
 module.exports = {
