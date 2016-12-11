@@ -4,6 +4,7 @@ var photo = require('../models/photo');
 
 module.exports = {
   savePhoto : function(uuid, fileName, keywordArray, photoUUIDsArray){
+    console.log("inside save photo");
     new photo({
       uuid: uuid,
       fileName: fileName,
@@ -34,26 +35,39 @@ module.exports = {
       )
   },
   deletePhoto : function(uuid) {
-    console.log("inside delete photo and uuid is "+uuid);
-    photo.findOne({'uuid': uuid}, function(err, model) {
-      if(err){
-         console.log("Error in deleting document from the database");
-        return;
-      }
-      console.log("model is ");
-      console.log(model);
-      // uuid (user's)
-      // iterate through all the keywords in model[keywods]
-       model['keywords'].forEach(function(element) {
-         console.log("element is ");
-         console.log(element);
-         keyword.update({$pull: { 'photoUUIDs' : { 'uuid': element}}});
+    photo.findOneAndRemove({'uuid': uuid})
+    .then(function(model, err) {
+      if(err) {
+        console.log("Couldn't delete the photos, "+err);
+      } else {
+          model['keywords'].forEach(function(element) {
+          keyword.update({'keyword': element},{$pull: { 'photoUUIDs' : { 'uuid': uuid}}})
+          .then(function(model, error){
+          if(error){
+            console.log("Error in updating keywords table, "+ error);
+            console.log(error);
+          }
+         });
        });
+      }
     });
+
   },
   getPhotos() {
     // Find all photos, then use exec() to return a promise
     return photo.find({}).exec();
+  },
+  getKeywords() {
+    return keyword.find({}).exec();
+  },
+  getSearchedPhotos(searchWord) {
+    return keyword.findOne({'keyword': searchWord}, function(err, found){
+      if(err) {
+        console.log(err);
+      } else {
+        return found;
+      }
+    });
   }
 }
 //db.survey.update( { _id: 1 }, { $pullAll: { scores: [ 0, 5 ] } } )

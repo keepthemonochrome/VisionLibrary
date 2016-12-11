@@ -51,10 +51,8 @@ class Display extends React.Component {
 		this.state = {
 			selectedElement: {},
 			display: 'display-photo',
-		
 		}
 	}
-
 
   submitDelete() {
   	console.log('need to submit delete request to server for these photos');
@@ -103,8 +101,3 @@ class Display extends React.Component {
 }
 
 module.exports = Display;
-
-
-
-
-
