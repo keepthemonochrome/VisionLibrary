@@ -47,8 +47,9 @@ const Styles = {
     maxHeight: 'none',
   },
   bigImage: {
+    objectFit: 'contain',
     maxWidth: '100%',
-    maxHeight: '100%'
+    maxHeight: '30%'
   },
   deleteButton: {
     color: 'red'
