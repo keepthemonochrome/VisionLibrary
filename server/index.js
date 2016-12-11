@@ -7,6 +7,7 @@ var uuid = require('node-uuid').v4;
 var db = require('./config');
 var fs = require('fs');
 var im = require('imagemagick');
+var compression = require('compression');
 require('./config/cloudvision.config.js');
 var detection = require('../susanapitest/server/vision/labelDetection');
 var handler = require('./lib/request-handler');
@@ -42,6 +43,9 @@ var fileupload = multer({
 
 // Pass in the request and get the url that was requested
 let getRequestURL = req => req.protocol + '://' + req.get('host') + req.originalUrl;
+
+// Enable gzip compression static files
+app.use(compression());
 
 // Serve static files
 app.use('/', express.static('client/public'))

@@ -32,6 +32,7 @@
     "@google-cloud/vision": "^0.6.0",
     "bluebird": "^3.4.6",
     "body-parser": "^1.15.2",
+    "compression": "^1.6.2",
     "cors": "^2.8.1",
     "es6-promise": "^4.0.5",
     "express": "^4.14.0",
