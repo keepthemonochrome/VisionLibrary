@@ -42,15 +42,15 @@ const Styles = {
     margin: '0px 1px 4px 1px',
   },
   imageDialog: {
-    width: '95%',
-    height: '30%',
-    maxWidth: 'none',
-    maxHeight: 'none',
+    // width: '95%',
+    // height: '30%',
+    // maxWidth: 'none',
+    // maxHeight: 'none',
   },
   bigImage: {
-    objectFit: 'contain',
-    maxWidth: '100%',
-    maxHeight: '100%'
+    // objectFit: 'contain',
+    // maxWidth: '100%',
+    // maxHeight: '100%'
   },
   deleteButton: {
     color: 'red'

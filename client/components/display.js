@@ -1,10 +1,9 @@
 import React from 'react';
-import IconButton from 'material-ui/IconButton';
 import Subheader from 'material-ui/Subheader';
 import FlatButton from 'material-ui/FlatButton';
 import FontIcon from 'material-ui/FontIcon';
 import Dialog from 'material-ui/Dialog';
-import {assign} from 'lodash';
+import assign from 'lodash/assign';
 import Styles from './Styles';
 require('es6-promise').polyfill();
 require('isomorphic-fetch');

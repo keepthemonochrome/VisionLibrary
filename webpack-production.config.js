@@ -25,11 +25,12 @@ module.exports = {
   },
   plugins: [
       new webpack.NoErrorsPlugin(),
+      new webpack.optimize.UglifyJsPlugin({minimize: true}),
+      new webpack.optimize.DedupePlugin(),
+      new webpack.DefinePlugin({
+          'process.env': {
+              'NODE_ENV': JSON.stringify('production')
+          }
+      })
   ],
-
-  // resolve: {
-  //   extensions: ['', '.js', '.jsx', '.css'],
-  // },
-  // Create Sourcemaps for the bundle
-  devtool: 'source-map'
 }

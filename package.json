@@ -4,11 +4,12 @@
   "description": "Auto-sorting photo library",
   "main": "index.js",
   "scripts": {
-    "postinstall": "webpack",
+    "postinstall": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1",
     "nodemon": "nodemon -w server server",
     "start-client": "node ./dev-server-client.js",
-    "webpack": "webpack -d -w"
+    "webpack": "webpack -d -w",
+    "build": "webpack -p --config ./webpack-production.config.js"
   },
   "repository": {
     "type": "git",
