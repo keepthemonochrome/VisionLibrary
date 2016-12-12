@@ -5,7 +5,8 @@ var keywordSchema =mongoose.Schema({
    photoUUIDs: [{
                 uuid: { type: String },
                 scores: { type: String}
-                }]
+                }],
+   searchedCount: {type: Number, default: 0}
                 // array of objects. [{uuid: ...., scores: ...}, {..} ]
 });
 
