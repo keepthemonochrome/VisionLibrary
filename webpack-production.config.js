@@ -25,7 +25,10 @@ module.exports = {
   },
   plugins: [
       new webpack.NoErrorsPlugin(),
-      new webpack.optimize.UglifyJsPlugin({minimize: true}),
+      new webpack.optimize.UglifyJsPlugin({
+        minimize: true,
+        compress: { warnings: false }
+      }),
       new webpack.optimize.DedupePlugin(),
       new webpack.DefinePlugin({
           'process.env': {
