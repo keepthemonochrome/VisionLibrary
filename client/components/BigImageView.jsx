@@ -5,12 +5,24 @@ import Styles from './Styles';
 export default class BigImageView extends React.Component {
     constructor(props) {
       super(props);
-      fetch('/api/metadata/' + this.props.src.split('/').pop())
-      .then(res => console.log(res))
+      console.log(props.metaDataObj);
+      // var cb = (metaDataObj) => {
+      //   this.setState({metaData: {
+      //     cameraInfoMake: metaDataObj.image.Make,
+      //     cameraInfoModel: metaDataObj.image.Model,
+      //     modifyDate: metaDataObj.image.ModifyDate
+      //   }})
+      // }
+
+
 
       this.state = {
         open: this.props.open,
-        metaData: {}
+        // metaData: {
+        //   cameraInfoMake: metaDataObj.image.Make,
+        //   cameraInfoModel: metaDataObj.image.Model,
+        //   modifyDate: metaDataObj.image.ModifyDate
+        // }
       }
     }
 
@@ -24,8 +36,8 @@ export default class BigImageView extends React.Component {
           <div style={{width: 200, paddingLeft: 20}}>
               <h3>Image Title</h3>
               <ul>
-                <li>Date</li>
-                <li>Camera Info</li>
+                <li>Date: { this.props.metaDataObj.image.ModifyDate }</li>
+                <li>Camera Info: {this.props.metaDataObj.image.Make + ' ' + this.props.metaDataObj.image.Model}</li>
               </ul>
             </div>
         </div>

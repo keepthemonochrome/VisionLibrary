@@ -29,7 +29,8 @@ export default class App extends React.Component {
       topEightKeywords: [],
       bigImageSrc: '',
       bigImageIdx: 0,
-      bigImageOpen: false
+      bigImageOpen: false,
+      bigImageMetaData: {}
     }
     this.fetchKeywords();
   }
@@ -82,9 +83,17 @@ export default class App extends React.Component {
 
   onThumbDblClick(bigImageIdx, bigImageSrc) {
     this.setState({
-      bigImageOpen: true,
       bigImageSrc,
       bigImageIdx,
+    }, () => {
+      fetch('/api/metadata/' + this.state.bigImageSrc.split('/').pop())
+      .then(res => res.json())
+      .then(result => {
+        var metaDataObj = JSON.parse(result.metaData)
+        this.setState({ bigImageMetaData: metaDataObj }, () => {
+          this.setState({bigImageOpen: true});
+        });      
+      })
     });
   }
 
@@ -133,8 +142,13 @@ export default class App extends React.Component {
   }
 
   renderBigImageView() {
+    console.log(this.state.bigImageSrc);
+    console.log(this.state.bigImageMetaData);
     return (
-      <BigImageView src={ this.state.bigImageSrc } />
+      <BigImageView 
+        src={ this.state.bigImageSrc } 
+        metaDataObj={ this.state.bigImageMetaData }
+      />
     );
   }
 

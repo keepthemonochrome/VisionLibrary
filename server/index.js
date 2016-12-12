@@ -87,14 +87,17 @@ api.post('/photos', fileupload, (req, res) => {
           new ExifImage({ image : newPath }, function (error, exifData) {
             if (error){
                 console.log('Error: '+error.message);
+                handler.savePhoto(uuid, fileName, keywordArray, photoUUIDsArray);
             } else {
                 metaDataString = JSON.stringify(exifData);
+                handler.savePhoto(uuid, fileName, keywordArray, photoUUIDsArray, metaDataString);
             } 
           });
         } catch (error) {
             console.log('Error: ' + error.message);
+            handler.savePhoto(uuid, fileName, keywordArray, photoUUIDsArray);
         }
-        handler.savePhoto(uuid, fileName, keywordArray, photoUUIDsArray, metaDataString);
+        
         
         im.resize({
           srcData: fs.readFileSync(newPath, 'binary'),

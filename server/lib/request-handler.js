@@ -11,7 +11,7 @@ module.exports = {
       uuid: uuid,
       fileName: fileName,
       keywords: keywordArray,
-      metaDataString: metaDataString
+      metaData: metaDataString
     })
     .save(() => console.log('photo created in db'))
     .catch(err => {throw err;})
