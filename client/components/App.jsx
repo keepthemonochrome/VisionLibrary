@@ -23,7 +23,8 @@ export default class App extends React.Component {
     });
 
     this.state = {
-      sources: {},
+      sources: [],
+      photosUUIDsToDisplay: new Set(),
       autoCompleteData: [],
       topEightKeywords: [],
       bigImageSrc: '',
@@ -51,39 +52,35 @@ export default class App extends React.Component {
   loadAllPhoto () {
     fetch(window.endpoint + '/photos', {method: 'GET'})
       .then(response =>  response.json())
-      .then(json => {
-        var result = json.reduce((result, element) => {
-          result[element.uuid] = element.keywords;
-          return result;
-        },{});
-        this.setState({sources: result})
+      .then(sources => {
+        let photosUUIDsToDisplay = new Set(sources.map(p => p.uuid));
+        this.setState({ sources, photosUUIDsToDisplay });
       });
   }
 
   handleSearch (keyword = '', limit = 10) {
     fetch(window.endpoint + '/keywords/' + keyword, {method: 'GET'})
-    .then(response =>  response.json())
-    .then(json => {
-      var result = json.photoUUIDs.reduce((result, element) => {
-        result[element.uuid] = element.keywords;
-        return result;
-      },{});
-      this.setState({sources: result})
-    });
+      .then(response =>  response.json())
+      .then(json => {
+        // Store photo uuids in set data structure for faster lookup
+        let photosUUIDsToDisplay = new Set(json.photoUUIDs.map(puuid => puuid.uuid));
+        this.setState({ photosUUIDsToDisplay });
+      });
   }
 
+  // TODO change sources to array
   handleDelete (source) {
-    delete this.state.sources[source]
-    this.setState({sources: this.state.sources});
-    fetch(window.endpoint + '/phones/delete/' + source, {method: 'POST'})
-    .then(response => {
-      console.log('Deleted one picture, response from server: ' + response);
-    })
+    // delete this.state.sources[source]
+    // this.setState({sources: this.state.sources});
+    // fetch(window.endpoint + '/phones/delete/' + source, {method: 'POST'})
+    //   .then(response => {
+    //     console.log('Deleted one picture, response from server: ' + response);
+    //   })
+
+    console.warn('handleDelete needs to be reimplemented');
   }
 
   onThumbDblClick(bigImageIdx, bigImageSrc) {
-    console.log('OPENING ' + bigImageIdx);
-    console.log(this.state.sources);
     this.setState({
       bigImageOpen: true,
       bigImageSrc,
@@ -93,24 +90,22 @@ export default class App extends React.Component {
 
   skipUpDisplayImage(deltaIdx) {
     let imageIdxToSwitch = this.state.bigImageIdx + deltaIdx;
-    // TODO change this.state.sources back to an array and refractor
-    this.setState({
-      bigImageIdx: imageIdxToSwitch,
-    })
+    if (imageIdxToSwitch >= 0 && imageIdxToSwitch < this.state.sources.length) {
+      let bigImageSrc = this.state.sources[imageIdxToSwitch].url;
+      console.log(bigImageSrc);
+      this.setState({
+        bigImageIdx: imageIdxToSwitch,
+        bigImageSrc,
+      });
+    }
   }
 
   onDisplayKeyPress(e) {
     // Make a hashmap from event strings to functions that act for that event
     let keyMap = {
-      ArrowLeft: () => {
-        console.log('left')
-      },
-      ArrowRight: () => {
-        console.log('right')
-      },
-      Escape: () => {
-        this.setState({ bigImageOpen: false });
-      },
+      ArrowLeft: () => this.skipUpDisplayImage(-1),
+      ArrowRight: () => this.skipUpDisplayImage(1),
+      Escape: () => this.setState({ bigImageOpen: false }),
     };
     // Check if a function for that the event key exists and call it if so
     keyMap[e.key] && keyMap[e.key]();
@@ -145,10 +140,13 @@ export default class App extends React.Component {
 
   renderDisplay() {
     return (<Display
-      loadAllPhoto = {this.loadAllPhoto.bind(this)}
-      handleDelete = {this.handleDelete.bind(this)}
-      thumbDblClick={this.onThumbDblClick.bind(this)}
-      sources = {this.state.sources}
+      loadAllPhoto={ this.loadAllPhoto.bind(this) }
+      handleDelete={ this.handleDelete.bind(this) }
+      thumbDblClick={ this.onThumbDblClick.bind(this) }
+      sources={
+        this.state.sources.filter(p =>
+          this.state.photosUUIDsToDisplay.has(p.uuid))
+      }
       />);
   }
 }

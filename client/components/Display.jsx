@@ -61,7 +61,6 @@ class Display extends React.Component {
 		this.state = {
 			selectedElement: {},
 			display: 'display-photo',
-			sources: this.props.sources
 		}
 	}
 
@@ -95,11 +94,11 @@ class Display extends React.Component {
 			<style>{'section::after {content:\'\'; flex-grow: 999999999}'}</style>
 			<section style={{display: 'flex', flexWrap: 'wrap'}}>
 				{
-					Object.keys(this.props.sources).map((uuid, idx) => {
+					this.props.sources.map((p, idx) => {
 						return (<ClickableTile
-							key={uuid}
-							src={'/api/photos/' + uuid + '-thumb'}
-							uuid={uuid}
+							key={p.uuid}
+							src={'/api/photos/' + p.uuid + '-thumb'}
+							uuid={p.uuid}
 							thumbDblClick={src => this.props.thumbDblClick(idx, src)}
 							/>);
 					})
