@@ -7,6 +7,7 @@ var uuid = require('node-uuid').v4;
 var db = require('./config');
 var fs = require('fs');
 var im = require('imagemagick');
+var ExifImage = require('exif').ExifImage;
 require('./config/cloudvision.config.js');
 var detection = require('../susanapitest/server/vision/labelDetection');
 var handler = require('./lib/request-handler');
@@ -83,6 +84,17 @@ api.post('/photos', fileupload, (req, res) => {
           if (err) throw err;
           fs.writeFileSync(newPath + '-thumb', stdout, 'binary');
         });
+        //------- do not know if the following works!!!
+        try {
+          new ExifImage({ image : newPath }, function (error, exifData) {
+            if (error)
+              console.log('Error: '+error.message);
+          else
+              console.log(exifData); // Do something with your data! 
+          });
+        } catch (error) {
+            console.log('Error: ' + error.message);
+        }
       }
     });
   });
