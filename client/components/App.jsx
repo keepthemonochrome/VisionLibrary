@@ -28,8 +28,10 @@ export default class App extends React.Component {
       relatedKeywords: [],
       bigImageSrc: '',
       bigImageIdx: 0,
+      bigImageKeywords: [],
       bigImageOpen: false,
-      bigImageMetaData: {}
+      bigImageMetaData: {},
+
     }
     this.fetchTopKeywords();
   }
@@ -88,21 +90,25 @@ export default class App extends React.Component {
   }
 
   // TODO change sources to array
-  handleDelete (source) {
-    // delete this.state.sources[source]
-    // this.setState({sources: this.state.sources});
-    // fetch('/api/phones/delete/' + source, {method: 'POST'})
-    //   .then(response => {
-    //     console.log('Deleted one picture, response from server: ' + response);
-    //   })
 
-    console.warn('handleDelete needs to be reimplemented');
+  handleDelete (sources) {
+    sources.forEach(function(source) {
+      console.log(source);
+      fetch('/api/photos/delete/' + source, {method: 'POST'})
+    });
+    sources.forEach(source => {
+      var modifiedState = this.state.photosUUIDsToDisplay;
+      modifiedState =modifiedState.delete(source);
+      this.setState(this.photosUUIDsToDisplay: modifiedState);
+    });
+
   }
 
-  onThumbDblClick(bigImageIdx, bigImageSrc) {
+  onThumbDblClick(bigImageIdx, bigImageSrc, bigImageKeywords) {
     this.setState({
       bigImageSrc,
       bigImageIdx,
+      bigImageKeywords
     }, () => {
       fetch('/api/metadata/' + this.state.bigImageSrc.split('/').pop())
       .then(res => res.json())
@@ -157,12 +163,12 @@ export default class App extends React.Component {
   }
 
   renderBigImageView() {
-    console.log(this.state.bigImageSrc);
-    console.log(this.state.bigImageMetaData);
     return (
       <BigImageView
         src={ this.state.bigImageSrc }
+        keywords={ this.state.bigImageKeywords}
         metaDataObj={ this.state.bigImageMetaData }
+
       />
     );
   }

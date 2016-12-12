@@ -8,9 +8,11 @@ import Styles from './Styles';
 class ClickableTile extends React.Component {
 	constructor(props) {
 		super(props);
+		//props.keywords is the keywords
 		this.state = {
 			selected: false,
 			canDoubleClick: false
+
 		}
 	}
 
@@ -19,7 +21,7 @@ class ClickableTile extends React.Component {
 			this.onDoubleClick();
 		} else {
 			this.setState({
-				selected: true,
+				selected: !this.state.selected,
 				canDoubleClick: true,
 			},
 			() => {
@@ -67,12 +69,16 @@ class Display extends React.Component {
   submitDelete() {
   	console.log('need to submit delete request to server for these photos');
   	console.log(this.state.selectedElement);
-
-  }
+    var selectedElements = Object.keys(this.state.selectedElement);
+    this.props.handleDelete(selectedElements);
+   }
+   
   addElement(uuid) {
     let selectedElement = this.state.selectedElement;
     selectedElement[uuid]= true;
-    this.setState({selectedElement: selectedElement});
+    this.setState({selectedElement: selectedElement}, ()=>{
+      console.log(this.state.selectedElement)
+    });
 
   }
   removeElement(uuid) {
@@ -99,7 +105,10 @@ class Display extends React.Component {
 							key={p.uuid}
 							src={'/api/photos/' + p.uuid + '-thumb'}
 							uuid={p.uuid}
-							thumbDblClick={src => this.props.thumbDblClick(idx, src)}
+
+							thumbDblClick={src => this.props.thumbDblClick(idx, src, p.keywords)}
+							addElement={this.addElement.bind(this)}
+							removeElement={this.removeElement.bind(this)}
 							/>);
 					})
 				}

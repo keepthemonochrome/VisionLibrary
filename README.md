@@ -20,15 +20,27 @@
 
 ## Usage
 
-> Some usage instructions
+> To start the server:
+From within the root directory: 
+```sh
+npm run nodemon
+```
+> To convert react code
+From within the root directory: 
+```sh
+webpack -w
+```
+> Cleint side user experience:
+Double click the picture tile. The full size picture will be shown in the 'BigImageView'.
+To look at next or previous image, user needs to hit left or right arrow on the keyboard.
+To go back to picture tile, user needs to hit esc key on the keyboard.
 
 ## Requirements
 
 - Node 0.10.x
-- Redis 2.6.x
-- Postgresql 9.1.x
-- etc
-- etc
+- Mongodb
+- Imagemagick
+
 
 ## Development
 
@@ -37,14 +49,16 @@
 From within the root directory:
 
 ```sh
-sudo npm install -g bower
-npm install
-bower install
+npm instll
+brew install imagemagick
 ```
 
 ### Roadmap
+Want-list and suggestions for legacy:
+- delete inaccurate auto generated keyword
+- add keyword manually
 
-View the project roadmap [here](LINK_TO_PROJECT_ISSUES)
+
 
 
 ## Contributing
