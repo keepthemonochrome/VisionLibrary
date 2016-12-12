@@ -2,7 +2,7 @@
 var mongoose = require('mongoose');
 var Promise = require('bluebird');
 mongoose.Promise = Promise;
-mongoose.connect("mongodb://localhost/visionPhotoLibrary");
+mongoose.connect(process.env.DATABASE_URL);
 var db = mongoose.connection;
 db.on('error', function(err) {
   console.log("Error in conencting to the database");
