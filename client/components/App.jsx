@@ -32,10 +32,10 @@ export default class App extends React.Component {
       bigImageOpen: false,
       bigImageMetaData: {}
     }
-    this.fetchKeywords();
+    this.fetchTopKeywords();
   }
 
-  fetchKeywords() {
+  fetchTopKeywords() {
     fetch('/api/keywords')
       .then(res => res.json())
       .then(keywords => {
@@ -92,7 +92,7 @@ export default class App extends React.Component {
         var metaDataObj = JSON.parse(result.metaData)
         this.setState({ bigImageMetaData: metaDataObj }, () => {
           this.setState({bigImageOpen: true});
-        });      
+        });
       })
     });
   }
@@ -146,8 +146,8 @@ export default class App extends React.Component {
     console.log(this.state.bigImageSrc);
     console.log(this.state.bigImageMetaData);
     return (
-      <BigImageView 
-        src={ this.state.bigImageSrc } 
+      <BigImageView
+        src={ this.state.bigImageSrc }
         metaDataObj={ this.state.bigImageMetaData }
       />
     );
