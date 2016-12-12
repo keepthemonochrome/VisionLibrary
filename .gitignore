@@ -11,6 +11,6 @@ bundle.js
 bundle.js.map
 
 *credentials.json
-*.config.js
+cloudvision.config.js
 
 photo_storage

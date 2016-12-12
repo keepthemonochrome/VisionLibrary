@@ -6,6 +6,9 @@ var cors = require('cors');
 var uuid = require('node-uuid').v4;
 var db = require('./config');
 var fs = require('fs');
+var im = require('imagemagick');
+var ExifImage = require('exif').ExifImage;
+var compression = require('compression');
 require('./config/cloudvision.config.js');
 var detection = require('../susanapitest/server/vision/labelDetection');
 var handler = require('./lib/request-handler');
@@ -42,6 +45,9 @@ var fileupload = multer({
 // Pass in the request and get the url that was requested
 let getRequestURL = req => req.protocol + '://' + req.get('host') + req.originalUrl;
 
+// Enable gzip compression static files
+app.use(compression());
+
 // Serve static files
 app.use('/', express.static('client/public'))
 
@@ -54,7 +60,9 @@ api.use(parser.json());
 
 // POST /api/photos
 // Router endpoint for uploading photos uses multipart form data uploads
+
 api.post('/photos', fileupload, (req, res) => {
+  //TODO: we should factor out some functions
 
   // Receive label from api
   req.files.forEach(file => {
@@ -73,7 +81,33 @@ api.post('/photos', fileupload, (req, res) => {
             photoUUIDsArray.push(singlePhotoUUIDs);
           }
         });
-        handler.savePhoto(uuid, fileName, keywordArray, photoUUIDsArray);
+        var newPath = path.photos +'/' + uuid;
+        var metaDataString = '{}'
+        try {
+          new ExifImage({ image : newPath }, function (error, exifData) {
+            if (error){
+                console.log('Error: '+error.message);
+                handler.savePhoto(uuid, fileName, keywordArray, photoUUIDsArray);
+            } else {
+                metaDataString = JSON.stringify(exifData);
+                handler.savePhoto(uuid, fileName, keywordArray, photoUUIDsArray, metaDataString);
+            } 
+          });
+        } catch (error) {
+            console.log('Error: ' + error.message);
+            handler.savePhoto(uuid, fileName, keywordArray, photoUUIDsArray);
+        }
+        
+        
+        im.resize({
+          srcData: fs.readFileSync(newPath, 'binary'),
+          height: 300,
+          quality: 0.85
+        }, function(err, stdout, stderr){
+          if (err) throw err;
+          fs.writeFileSync(newPath + '-thumb', stdout, 'binary');
+        });
+
       }
     });
   });
@@ -91,6 +125,7 @@ api.get('/photos', (req, res) => {
     let photosWithURLs = _.map(photos, photo => {
       photo = photo.toObject();
       photo['url'] = requestURL + '/' + photo.uuid;
+      photo['thumbUrl'] = requestURL + '/' + photo.uuid + '-thumb';
       return photo;
     });
     res.json(photosWithURLs);
@@ -100,7 +135,7 @@ api.get('/photos', (req, res) => {
 api.post('/photos/delete/:uuid', (req, res) => {
  //handler.savePhoto('nelson', "fileName",['dog','cat']);//just for testing
   handler.deletePhoto(req.params.uuid, path);
-  
+
   res.end("Ended");
 });
 //85e93eee-870e-4727-b7c2-d623d22bc4fc
@@ -109,6 +144,17 @@ api.get('/photos/:uuid', (req, res) => {
   let filePath = path.photos + '/' + req.params.uuid;
   res.sendFile(filePath);
 });
+api.get('/metadata/:uuid', (req, res) => {
+  handler
+  .getMetaData(req.params.uuid)
+  .then((data)=>{
+    console.log(JSON.parse(data.metaData));
+    res.send(data);
+    res.end();
+  });
+});
+
+
 
 api.get('/keywords/:keyword', (req, res) => {
   handler

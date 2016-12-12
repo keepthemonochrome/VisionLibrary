@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Chip from 'material-ui/Chip';
-import {map} from 'lodash';
+import map from 'lodash/fp/map';
 import FontIcon from 'material-ui/FontIcon';
 
 const tagBarStyles = {
@@ -25,13 +25,13 @@ const TagBar = props => {
       <ToolbarGroup>
         <div style={tagBarStyles.wrapper}>
           {
-            map(props.tags, t =>
+            map(t =>
               <Chip
                 className='tag'
                 style={props.tagStyle}
                 key={t}>
                 {t}
-              </Chip>)
+              </Chip>, props.tags)
           }
         </div>
       </ToolbarGroup>
