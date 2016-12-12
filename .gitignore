@@ -10,7 +10,5 @@ dist/
 bundle.js
 bundle.js.map
 
-*credentials.json
-cloudvision.config.js
 
 photo_storage

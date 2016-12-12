@@ -1,3 +1,4 @@
+require('./config/cloudvision.config.js');
 var express = require('express');
 var app = express();
 var parser = require('body-parser');
@@ -9,7 +10,6 @@ var fs = require('fs');
 var im = require('imagemagick');
 var ExifImage = require('exif').ExifImage;
 var compression = require('compression');
-require('./config/cloudvision.config.js');
 var detection = require('../susanapitest/server/vision/labelDetection');
 var handler = require('./lib/request-handler');
 var _ = require('lodash');
@@ -91,14 +91,14 @@ api.post('/photos', fileupload, (req, res) => {
             } else {
                 metaDataString = JSON.stringify(exifData);
                 handler.savePhoto(uuid, fileName, keywordArray, photoUUIDsArray, metaDataString);
-            } 
+            }
           });
         } catch (error) {
             console.log('Error: ' + error.message);
             handler.savePhoto(uuid, fileName, keywordArray, photoUUIDsArray);
         }
-        
-        
+
+
         im.resize({
           srcData: fs.readFileSync(newPath, 'binary'),
           height: 300,
