@@ -133,12 +133,12 @@ api.get('/photos', (req, res) => {
 });
 
 api.post('/photos/delete/:uuid', (req, res) => {
- //handler.savePhoto('nelson', "fileName",['dog','cat']);//just for testing
+  console.log("inside delete in server, uuid is ",uuid);
   handler.deletePhoto(req.params.uuid, path);
 
   res.end("Ended");
 });
-//85e93eee-870e-4727-b7c2-d623d22bc4fc
+
 
 api.get('/photos/:uuid', (req, res) => {
   let filePath = path.photos + '/' + req.params.uuid;

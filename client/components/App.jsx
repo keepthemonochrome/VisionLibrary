@@ -70,15 +70,15 @@ export default class App extends React.Component {
   }
 
   // TODO change sources to array
-  handleDelete (source) {
-    // delete this.state.sources[source]
-    // this.setState({sources: this.state.sources});
-    // fetch(window.endpoint + '/phones/delete/' + source, {method: 'POST'})
-    //   .then(response => {
-    //     console.log('Deleted one picture, response from server: ' + response);
-    //   })
-
-    console.warn('handleDelete needs to be reimplemented');
+  handleDelete (sources) {
+    sources.forEach(function(source) {
+      fetch(window.endpoint + '/photos/delete/' + source, {method: 'POST'})
+    });
+    sources.forEach(source => {
+      var modifiedState = this.state.photosUUIDsToDisplay;
+      modifiedState =modifiedState.delete(source);
+      this.setState(this.photosUUIDsToDisplay: modifiedState);
+    });
   }
 
   onThumbDblClick(bigImageIdx, bigImageSrc) {
