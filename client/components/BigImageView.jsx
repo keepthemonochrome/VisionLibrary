@@ -14,15 +14,7 @@ export default class BigImageView extends React.Component {
       return (
         <div style={{display: 'flex', height: '100%'}}>
           <div style={{flexGrow: 1,}}>
-            <div
-              style={{
-                backgroundImage: `url("${this.props.src}")`,
-                backgroundColor: 'black',
-                backgroundSize: '100% auto',
-                backgroundRepeat: 'no-repeat',
-                height: '100%',
-                backgroundPosition: 'center center',
-              }} />
+            <div style={Object.assign(Styles.bigImageDiv, {backgroundImage: `url("${this.props.src}")`,})} />
           </div>
           <div style={{width: 200, paddingLeft: 20}}>
               <h3>Image Title</h3>

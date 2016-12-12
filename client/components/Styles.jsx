@@ -23,7 +23,6 @@ const Styles = {
     height: '100%',
     overflowY: 'auto',
   },
-
   image: {
     height: 200,
     objectFit: 'cover',
@@ -40,26 +39,6 @@ const Styles = {
     flexGrow: 1,
     backgroundColor: 'rgb(159, 159, 159)',
     margin: '0px 1px 4px 1px',
-  },
-  imageDialog: {
-    // width: '95%',
-    // height: '500px',
-    maxWidth: 'none',
-    // maxHeight: 'none',
-  },
-  imageDialogContainer: {
-    // display: 'flex',
-    // justifyContent: 'center',
-    // backgroundColor: 'black',
-    maxWidth: '100vw',
-    // maxHeight: '50vh',
-    backgroundSize: 'contain',
-    backgroundRepeat: 'no-repeat',
-    height: '100vh',
-    width: '100%',
-  },
-  bigImage: {
-    // objectFit: 'contain',
   },
   deleteButton: {
     color: 'red'
@@ -82,7 +61,13 @@ const Styles = {
   fileListItem: {
     color: '#64B5F6',
   },
-
+  bigImageDiv: {
+    backgroundColor: 'black',
+    backgroundSize: 'contain',
+    backgroundRepeat: 'no-repeat',
+    height: '100%',
+    backgroundPosition: 'center center',
+  },
 
 
 
