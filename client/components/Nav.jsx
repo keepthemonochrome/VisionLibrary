@@ -41,7 +41,7 @@ class Nav extends React.Component {
             id='navSearch'
             />
           <ToolbarGroup>
-            <Upload />
+            <Upload onUpload={this.props.onUpload} />
             <FlatButton
               icon={<FontIcon className="material-icons">account_circle</FontIcon>}
               label="michaelbdai"

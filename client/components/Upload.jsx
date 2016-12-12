@@ -38,12 +38,13 @@ class Upload extends React.Component {
 
   handleSubmit() {
     this.setState({open: false});
-    fetch('http://localhost:3000/api/photos', {
+    fetch('/api/photos', {
       method: 'POST',
       body: this.state.formData
     })
     .then(response => {
       console.log('Got response from server ', response);
+      this.props.onUpload();
       this.setState(this.originalState);
     })
     .catch(err => console.log('Error posting: ', err));

@@ -71,6 +71,7 @@ export default class App extends React.Component {
   }
 
   loadAllPhoto () {
+    console.log('loadallphoto')
     fetch('/api/photos', {method: 'GET'})
       .then(response =>  response.json())
       .then(sources => {
@@ -155,6 +156,7 @@ export default class App extends React.Component {
             fetchRelatedKeywords={this.fetchRelatedKeywords.bind(this)}
             style={{backgroundColor: '#03A9F4'}}
             autoCompleteData={this.state.autoCompleteData}
+            onUpload={this.loadAllPhoto.bind(this)}
             />
           {this.state.bigImageOpen ?
             this.renderBigImageView() : this.renderDisplay() }
