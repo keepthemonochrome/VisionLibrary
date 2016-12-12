@@ -65,7 +65,7 @@ api.post('/photos', fileupload, (req, res) => {
   //TODO: we should factor out some functions
 
   // Receive label from api
-  req.files.forEach(file => {
+  req.files.forEach((file, idx) => {
     detection.main(file.path, function(err, labels){
       if (err) {
         console.log(err);
@@ -91,14 +91,14 @@ api.post('/photos', fileupload, (req, res) => {
             } else {
                 metaDataString = JSON.stringify(exifData);
                 handler.savePhoto(uuid, fileName, keywordArray, photoUUIDsArray, metaDataString);
-            } 
+            }
           });
         } catch (error) {
             console.log('Error: ' + error.message);
             handler.savePhoto(uuid, fileName, keywordArray, photoUUIDsArray);
         }
-        
-        
+
+
         im.resize({
           srcData: fs.readFileSync(newPath, 'binary'),
           height: 300,
@@ -111,9 +111,6 @@ api.post('/photos', fileupload, (req, res) => {
       }
     });
   });
-
-  console.log('Receiving files ', req.files);
-  res.status(201);
 });
 
 api.get('/photos', (req, res) => {
