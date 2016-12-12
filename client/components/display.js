@@ -55,8 +55,9 @@ class Display extends React.Component {
 	}
 
   submitDelete() {
-  	console.log('need to submit delete request to server for these photos');
+  	//console.log('need to submit delete request to server for these photos');
   	console.log(this.state.selectedElement);
+    this.props.handleDelete(this.state.selectedElement);
   	
   }
   addElement(uuid) {

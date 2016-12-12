@@ -49,11 +49,13 @@ class App extends React.Component {
     });
   }
   handleDelete (source) {
+    console.log("inside handle delete");
     delete this.state.sources[source]
     this.setState({sources: this.state.sources});
-
-    fetch(window.endpoint + '/phones/delete/' + source, {method: 'POST'})
+    console.log("&&&&&&&&&&&&&&&&&&&");
+    fetch(window.endpoint + '/photos/delete/' + source, {method: 'POST'})
     .then(response => {
+      console.log(response);
       console.log('Deleted one picture, response from server: ' + response);
     })
   }
