@@ -7,11 +7,8 @@ var uuid = require('node-uuid').v4;
 var db = require('./config');
 var fs = require('fs');
 var im = require('imagemagick');
-
 var ExifImage = require('exif').ExifImage;
-
 var compression = require('compression');
-
 require('./config/cloudvision.config.js');
 var detection = require('../susanapitest/server/vision/labelDetection');
 var handler = require('./lib/request-handler');
@@ -137,7 +134,25 @@ api.post('/photos/delete/:uuid', (req, res) => {
 
 api.get('/photos/:uuid', (req, res) => {
   let filePath = path.photos + '/' + req.params.uuid;
-  res.sendFile(filePath);
+  var resData = {
+    filePath: filePath
+  }
+  try {
+    new ExifImage({ image : filePath }, function (error, exifData) {
+      if (error){
+          console.log('Error: '+error.message);
+          res.send(JSON.stringify(resData));
+      } else {
+          console.log(exifData); // Do something with your data!
+          resData.exif = exifData;
+          res.send(JSON.stringify(resData));
+      } 
+    });
+  } catch (error) {
+      console.log('Error: ' + error.message);
+      res.send(JSON.stringify(resData));
+  }  
+
 });
 
 api.get('/keywords/:keyword', (req, res) => {
