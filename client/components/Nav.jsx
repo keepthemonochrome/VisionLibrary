@@ -26,6 +26,7 @@ class Nav extends React.Component {
             maxSearchResults={5}
             underlineStyle={Styles.searchUnderline}
             onNewRequest={searchStr => this.props.handleSearch(searchStr, 10)}
+            onUpdateInput={searchStr => searchStr === '' ? this.props.loadAllPhoto() : null }
             fullWidth={true}
             inputStyle={{color: 'white'}}
             id='navSearch'
