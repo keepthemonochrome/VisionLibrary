@@ -41,7 +41,10 @@ const Styles = {
     margin: '0px 1px 4px 1px',
   },
   deleteButton: {
-    color: 'red'
+    color: 'rgb(200, 78, 78)',
+    position: 'fixed',
+    bottom: 0,
+    right: 0,
   },
   uploadContainer: {
     display: 'flex',
