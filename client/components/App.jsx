@@ -12,8 +12,6 @@ import TagBar from './TagBar';
 import Upload from './Upload';
 import BigImageView from './BigImageView';
 
-window.endpoint = 'http://localhost:3000/api';
-
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -26,32 +24,42 @@ export default class App extends React.Component {
       sources: [],
       photosUUIDsToDisplay: new Set(),
       autoCompleteData: [],
-      topEightKeywords: [],
+      relatedKeywords: [],
       bigImageSrc: '',
       bigImageIdx: 0,
+      bigImageKeywords: [],
       bigImageOpen: false,
-      bigImageMetaData: {}
+      bigImageMetaData: {},
+
     }
-    this.fetchKeywords();
+    this.fetchTopKeywords();
   }
 
-  fetchKeywords() {
+  fetchTopKeywords() {
     fetch('/api/keywords')
       .then(res => res.json())
       .then(keywords => {
-        let topEightKeywords = flow([
+        let relatedKeywords = flow([
           sortBy([k => k.photoUUIDs.length]),
           map('keyword'),
           ks => ks.slice(0, 7)
         ]) (keywords);
         this.setState({
           autoCompleteData: map('keyword', keywords),
-          topEightKeywords});
+          relatedKeywords});
       });
   }
 
+  fetchRelatedKeywords(searchKeyword) {
+    fetch('api/keywords/searchKeyword')
+    .then(res => res.json())
+    .then(keywords => {
+
+    });
+  }
+
   loadAllPhoto () {
-    fetch(window.endpoint + '/photos', {method: 'GET'})
+    fetch('/api/photos', {method: 'GET'})
       .then(response =>  response.json())
       .then(sources => {
         let photosUUIDsToDisplay = new Set(sources.map(p => p.uuid));
@@ -60,7 +68,7 @@ export default class App extends React.Component {
   }
 
   handleSearch (keyword='', limit = 10) {
-    fetch(window.endpoint + '/keywords/' + keyword, {method: 'GET'})
+    fetch('/api/keywords/' + keyword, {method: 'GET'})
     .then(response =>  response.json())
     .then(json => {
       // Store photo uuids in set data structure for faster lookup
@@ -70,6 +78,7 @@ export default class App extends React.Component {
   }
 
   // TODO change sources to array
+
   handleDelete (sources) {
     sources.forEach(function(source) {
       fetch(window.endpoint + '/photos/delete/' + source, {method: 'POST'})
@@ -79,12 +88,14 @@ export default class App extends React.Component {
       modifiedState =modifiedState.delete(source);
       this.setState(this.photosUUIDsToDisplay: modifiedState);
     });
+
   }
 
-  onThumbDblClick(bigImageIdx, bigImageSrc) {
+  onThumbDblClick(bigImageIdx, bigImageSrc, bigImageKeywords) {
     this.setState({
       bigImageSrc,
       bigImageIdx,
+      bigImageKeywords
     }, () => {
       fetch('/api/metadata/' + this.state.bigImageSrc.split('/').pop())
       .then(res => res.json())
@@ -92,7 +103,7 @@ export default class App extends React.Component {
         var metaDataObj = JSON.parse(result.metaData)
         this.setState({ bigImageMetaData: metaDataObj }, () => {
           this.setState({bigImageOpen: true});
-        });      
+        });
       })
     });
   }
@@ -130,11 +141,6 @@ export default class App extends React.Component {
             style={{backgroundColor: '#03A9F4'}}
             autoCompleteData={this.state.autoCompleteData}
             />
-          <TagBar
-            tags={this.state.topEightKeywords}
-            style={{backgroundColor: 'rgb(245, 245, 245)'}}
-            tagStyle={{marginRight: 10}}
-            />
           {this.state.bigImageOpen ?
             this.renderBigImageView() : this.renderDisplay() }
         </div>
@@ -143,25 +149,33 @@ export default class App extends React.Component {
   }
 
   renderBigImageView() {
-    console.log(this.state.bigImageSrc);
-    console.log(this.state.bigImageMetaData);
     return (
-      <BigImageView 
-        src={ this.state.bigImageSrc } 
+      <BigImageView
+        src={ this.state.bigImageSrc }
+        keywords={ this.state.bigImageKeywords}
         metaDataObj={ this.state.bigImageMetaData }
+
       />
     );
   }
 
   renderDisplay() {
-    return (<Display
-      loadAllPhoto={ this.loadAllPhoto.bind(this) }
-      handleDelete={ this.handleDelete.bind(this) }
-      thumbDblClick={ this.onThumbDblClick.bind(this) }
-      sources={
-        this.state.sources.filter(p =>
-          this.state.photosUUIDsToDisplay.has(p.uuid))
-      }
-      />);
+    return (
+      <section>
+        <TagBar
+          tags={this.state.relatedKeywords}
+          style={{backgroundColor: 'rgb(245, 245, 245)'}}
+          tagStyle={{marginRight: 10}}
+          />
+        <Display
+        loadAllPhoto={ this.loadAllPhoto.bind(this) }
+        handleDelete={ this.handleDelete.bind(this) }
+        thumbDblClick={ this.onThumbDblClick.bind(this) }
+        sources={
+          this.state.sources.filter(p =>
+            this.state.photosUUIDsToDisplay.has(p.uuid))
+        }
+        />
+    </section>);
   }
 }

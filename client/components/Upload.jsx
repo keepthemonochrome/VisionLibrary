@@ -21,17 +21,14 @@ class Upload extends React.Component {
   }
 
   onDrop(acceptedFiles, rejectedFiles) {
-    console.log('Rejected files: ', rejectedFiles);
     // Make a new formData object to simulate files being sent by a form
     // instead of an html5 dropzone
     var formData = new FormData();
     // Attach all accepted files to the form data
     each(acceptedFiles, file => formData.append('photos', file));
     this.setState({ formData, fileNames: acceptedFiles.map(file => file.name) });
-    console.log('sadfdsfa', acceptedFiles);
   }
   handleOpen() {
-    console.log('clicked open')
     this.setState({open: true});
   };
 
@@ -41,7 +38,6 @@ class Upload extends React.Component {
 
   handleSubmit() {
     this.setState({open: false});
-    console.log('triggering post request');
     fetch('http://localhost:3000/api/photos', {
       method: 'POST',
       body: this.state.formData
