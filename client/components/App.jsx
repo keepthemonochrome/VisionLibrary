@@ -126,12 +126,20 @@ export default class App extends React.Component {
     if (imageIdxToSwitch >= 0 && imageIdxToSwitch < this.state.sources.length) {
       let bigImageSrc = this.state.sources[imageIdxToSwitch].url;
       let bigImageKeywords = this.state.sources[imageIdxToSwitch].keywords;
-      console.log(bigImageSrc);
       this.setState({
         bigImageIdx: imageIdxToSwitch,
         bigImageSrc,
-        bigImageKeywords
-      });
+        bigImageKeywords,
+      },() => {
+      fetch('/api/metadata/' + this.state.bigImageSrc.split('/').pop())
+      .then(res => res.json())
+      .then(result => {
+        var metaDataObj = JSON.parse(result.metaData)
+        this.setState({ bigImageMetaData: metaDataObj, bigImageOpen: false }, () => {
+          this.setState({bigImageOpen: true});
+        });
+      })
+    });
     }
   }
 
