@@ -113,10 +113,12 @@ export default class App extends React.Component {
     let imageIdxToSwitch = this.state.bigImageIdx + deltaIdx;
     if (imageIdxToSwitch >= 0 && imageIdxToSwitch < this.state.sources.length) {
       let bigImageSrc = this.state.sources[imageIdxToSwitch].url;
+      let bigImageKeywords = this.state.sources[imageIdxToSwitch].keywords;
       console.log(bigImageSrc);
       this.setState({
         bigImageIdx: imageIdxToSwitch,
         bigImageSrc,
+        bigImageKeywords
       });
     }
   }
