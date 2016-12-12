@@ -59,14 +59,14 @@ export default class App extends React.Component {
       });
   }
 
-  handleSearch (keyword = '', limit = 10) {
+  handleSearch (keyword='', limit = 10) {
     fetch(window.endpoint + '/keywords/' + keyword, {method: 'GET'})
-      .then(response =>  response.json())
-      .then(json => {
-        // Store photo uuids in set data structure for faster lookup
-        let photosUUIDsToDisplay = new Set(json.photoUUIDs.map(puuid => puuid.uuid));
-        this.setState({ photosUUIDsToDisplay });
-      });
+    .then(response =>  response.json())
+    .then(json => {
+      // Store photo uuids in set data structure for faster lookup
+      let photosUUIDsToDisplay = new Set(json.photoUUIDs.map(puuid => puuid.uuid));
+      this.setState({ photosUUIDsToDisplay });
+    });
   }
 
   // TODO change sources to array
@@ -126,6 +126,7 @@ export default class App extends React.Component {
         <div className='stretch'>
           <Nav
             handleSearch = {this.handleSearch.bind(this)}
+            loadAllPhoto = {this.loadAllPhoto.bind(this)}
             style={{backgroundColor: '#03A9F4'}}
             autoCompleteData={this.state.autoCompleteData}
             />
