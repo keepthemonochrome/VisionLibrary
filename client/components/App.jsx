@@ -27,8 +27,10 @@ export default class App extends React.Component {
       relatedKeywords: [],
       bigImageSrc: '',
       bigImageIdx: 0,
+      bigImageKeywords: [],
       bigImageOpen: false,
-      bigImageMetaData: {}
+      bigImageMetaData: {},
+
     }
     this.fetchTopKeywords();
   }
@@ -87,10 +89,11 @@ export default class App extends React.Component {
     console.warn('handleDelete needs to be reimplemented');
   }
 
-  onThumbDblClick(bigImageIdx, bigImageSrc) {
+  onThumbDblClick(bigImageIdx, bigImageSrc, bigImageKeywords) {
     this.setState({
       bigImageSrc,
       bigImageIdx,
+      bigImageKeywords
     }, () => {
       fetch('/api/metadata/' + this.state.bigImageSrc.split('/').pop())
       .then(res => res.json())
@@ -147,7 +150,9 @@ export default class App extends React.Component {
     return (
       <BigImageView
         src={ this.state.bigImageSrc }
+        keywords={ this.state.bigImageKeywords}
         metaDataObj={ this.state.bigImageMetaData }
+
       />
     );
   }

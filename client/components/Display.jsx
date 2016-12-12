@@ -8,9 +8,11 @@ import Styles from './Styles';
 class ClickableTile extends React.Component {
 	constructor(props) {
 		super(props);
+		//props.keywords is the keywords
 		this.state = {
 			selected: false,
 			canDoubleClick: false
+
 		}
 	}
 
@@ -99,7 +101,7 @@ class Display extends React.Component {
 							key={p.uuid}
 							src={'/api/photos/' + p.uuid + '-thumb'}
 							uuid={p.uuid}
-							thumbDblClick={src => this.props.thumbDblClick(idx, src)}
+							thumbDblClick={src => this.props.thumbDblClick(idx, src, p.keywords)}
 							addElement={this.addElement.bind(this)}
 							removeElement={this.removeElement.bind(this)}
 							/>);
