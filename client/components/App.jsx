@@ -5,6 +5,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import map from 'lodash/fp/map';
 import sortBy from 'lodash/fp/sortBy';
 import flow from 'lodash/fp/flow';
+import uniq from 'lodash/uniq';
 
 import Nav from './Nav';
 import Display from './Display';
@@ -51,10 +52,21 @@ export default class App extends React.Component {
   }
 
   fetchRelatedKeywords(searchKeyword) {
-    fetch('api/keywords/searchKeyword')
+    fetch('api/keywords/' + searchKeyword)
     .then(res => res.json())
-    .then(keywords => {
-
+    .then(kwObj => {
+      let relatedKeywords = [];
+      kwObj.photoUUIDs.forEach(targetPhoto => {
+        this.state.photosUUIDsToDisplay.forEach(uuid => {
+          this.state.sources.forEach(obj => {
+            if(obj.uuid === uuid) {
+              relatedKeywords = relatedKeywords.concat(obj.keywords);
+            }
+          });
+        });
+        relatedKeywords = uniq(relatedKeywords);
+        this.setState({relatedKeywords});
+      });
     });
   }
 
@@ -139,8 +151,10 @@ export default class App extends React.Component {
       <MuiThemeProvider>
         <div className='stretch'>
           <Nav
-            handleSearch = {this.handleSearch.bind(this)}
-            loadAllPhoto = {this.loadAllPhoto.bind(this)}
+            handleSearch={this.handleSearch.bind(this)}
+            loadAllPhoto={this.loadAllPhoto.bind(this)}
+            fetchTopKeywords={this.fetchTopKeywords.bind(this)}
+            fetchRelatedKeywords={this.fetchRelatedKeywords.bind(this)}
             style={{backgroundColor: '#03A9F4'}}
             autoCompleteData={this.state.autoCompleteData}
             />
