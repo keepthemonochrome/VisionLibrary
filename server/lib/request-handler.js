@@ -5,12 +5,13 @@ var thumb = require('node-thumbnail').thumb;
 
 var fs = require('fs');
 module.exports = {
-  savePhoto : function(uuid, fileName, keywordArray, photoUUIDsArray){
+  savePhoto : function(uuid, fileName, keywordArray, photoUUIDsArray, metaDataString){
     console.log("inside save photo");
     new photo({
       uuid: uuid,
       fileName: fileName,
-      keywords: keywordArray
+      keywords: keywordArray,
+      metaDataString: metaDataString
     })
     .save(() => console.log('photo created in db'))
     .catch(err => {throw err;})
@@ -72,6 +73,15 @@ module.exports = {
   },
   getSearchedPhotos(searchWord) {
     return keyword.findOne({'keyword': searchWord}, function(err, found){
+      if(err) {
+        console.log(err);
+      } else {
+        return found;
+      }
+    });
+  },
+  getMetaData(uuid) {
+    return photo.findOne({'uuid': uuid}, function(err, found){
       if(err) {
         console.log(err);
       } else {

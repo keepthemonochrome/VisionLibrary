@@ -5,12 +5,17 @@ import Styles from './Styles';
 export default class BigImageView extends React.Component {
     constructor(props) {
       super(props);
+      fetch('/api/metadata/' + this.props.src.split('/').pop())
+      .then(res => console.log(res))
+
       this.state = {
-        open: this.props.open
+        open: this.props.open,
+        metaData: {}
       }
     }
 
     render() {
+
       return (
         <div style={{display: 'flex', height: '100%'}}>
           <div style={{flexGrow: 1,}}>

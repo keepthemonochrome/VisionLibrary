@@ -4,7 +4,7 @@ import AutoComplete from 'material-ui/AutoComplete';
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 import FontIcon from 'material-ui/FontIcon';
 import FlatButton from 'material-ui/FlatButton';
-import Upload from './Upload';
+import Upload from './upload.js';
 import Styles from './Styles'
 
 class Nav extends React.Component {

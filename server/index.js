@@ -60,7 +60,9 @@ api.use(parser.json());
 
 // POST /api/photos
 // Router endpoint for uploading photos uses multipart form data uploads
+
 api.post('/photos', fileupload, (req, res) => {
+  //TODO: we should factor out some functions
 
   // Receive label from api
   req.files.forEach(file => {
@@ -79,8 +81,21 @@ api.post('/photos', fileupload, (req, res) => {
             photoUUIDsArray.push(singlePhotoUUIDs);
           }
         });
-        handler.savePhoto(uuid, fileName, keywordArray, photoUUIDsArray);
         var newPath = path.photos +'/' + uuid;
+        var metaDataString = '{}'
+        try {
+          new ExifImage({ image : newPath }, function (error, exifData) {
+            if (error){
+                console.log('Error: '+error.message);
+            } else {
+                metaDataString = JSON.stringify(exifData);
+            } 
+          });
+        } catch (error) {
+            console.log('Error: ' + error.message);
+        }
+        handler.savePhoto(uuid, fileName, keywordArray, photoUUIDsArray, metaDataString);
+        
         im.resize({
           srcData: fs.readFileSync(newPath, 'binary'),
           height: 300,
@@ -89,17 +104,7 @@ api.post('/photos', fileupload, (req, res) => {
           if (err) throw err;
           fs.writeFileSync(newPath + '-thumb', stdout, 'binary');
         });
-        //------- do not know if the following works!!!
-        try {
-          new ExifImage({ image : newPath }, function (error, exifData) {
-            if (error)
-              console.log('Error: '+error.message);
-          else
-              console.log(exifData); // Do something with your data! 
-          });
-        } catch (error) {
-            console.log('Error: ' + error.message);
-        }
+
       }
     });
   });
@@ -134,26 +139,19 @@ api.post('/photos/delete/:uuid', (req, res) => {
 
 api.get('/photos/:uuid', (req, res) => {
   let filePath = path.photos + '/' + req.params.uuid;
-  var resData = {
-    filePath: filePath
-  }
-  try {
-    new ExifImage({ image : filePath }, function (error, exifData) {
-      if (error){
-          console.log('Error: '+error.message);
-          res.send(JSON.stringify(resData));
-      } else {
-          console.log(exifData); // Do something with your data!
-          resData.exif = exifData;
-          res.send(JSON.stringify(resData));
-      } 
-    });
-  } catch (error) {
-      console.log('Error: ' + error.message);
-      res.send(JSON.stringify(resData));
-  }  
-
+  res.sendFile(filePath);
 });
+api.get('/metadata/:uuid', (req, res) => {
+  handler
+  .getMetaData(req.params.uuid)
+  .then((data)=>{
+    console.log(JSON.parse(data.metaData));
+    res.send(data);
+    res.end();
+  });
+});
+
+
 
 api.get('/keywords/:keyword', (req, res) => {
   handler
