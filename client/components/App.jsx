@@ -81,7 +81,8 @@ export default class App extends React.Component {
 
   handleDelete (sources) {
     sources.forEach(function(source) {
-      fetch(window.endpoint + '/photos/delete/' + source, {method: 'POST'})
+      console.log(source);
+      fetch('/api/photos/delete/' + source, {method: 'POST'})
     });
     sources.forEach(source => {
       var modifiedState = this.state.photosUUIDsToDisplay;
