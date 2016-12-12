@@ -143,8 +143,6 @@ export default class App extends React.Component {
   }
 
   renderBigImageView() {
-    console.log(this.state.bigImageSrc);
-    console.log(this.state.bigImageMetaData);
     return (
       <BigImageView 
         src={ this.state.bigImageSrc } 
