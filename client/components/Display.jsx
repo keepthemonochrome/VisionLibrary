@@ -19,7 +19,7 @@ class ClickableTile extends React.Component {
 			this.onDoubleClick();
 		} else {
 			this.setState({
-				selected: true,
+				selected: !this.state.selected,
 				canDoubleClick: true,
 			},
 			() => {
@@ -100,6 +100,8 @@ class Display extends React.Component {
 							src={'/api/photos/' + p.uuid + '-thumb'}
 							uuid={p.uuid}
 							thumbDblClick={src => this.props.thumbDblClick(idx, src)}
+							addElement={this.addElement.bind(this)}
+							removeElement={this.removeElement.bind(this)}
 							/>);
 					})
 				}
