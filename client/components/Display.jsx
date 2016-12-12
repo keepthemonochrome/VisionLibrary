@@ -1,21 +1,15 @@
 import React from 'react';
-import IconButton from 'material-ui/IconButton';
 import Subheader from 'material-ui/Subheader';
 import FlatButton from 'material-ui/FlatButton';
 import FontIcon from 'material-ui/FontIcon';
-import Dialog from 'material-ui/Dialog';
-import {assign} from 'lodash';
+import assign from 'lodash/assign';
 import Styles from './Styles';
-require('es6-promise').polyfill();
-require('isomorphic-fetch');
-
 
 class ClickableTile extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			selected: false,
-			open: false,
 			canDoubleClick: false
 		}
 	}
@@ -40,8 +34,7 @@ class ClickableTile extends React.Component {
 	}
 
 	onDoubleClick() {
-		console.log('doubleclick detected');
-		this.setState({ open: true });
+		this.props.thumbDblClick('/api/photos/' + this.props.uuid);
 	}
 
 	render() {
@@ -49,21 +42,14 @@ class ClickableTile extends React.Component {
 			assign(Styles.imageSelect, Styles.image) : Styles.image;
 		return (
 			<div style={Styles.imageCtr}>
-				<Dialog
-					open={this.state.open}
-					contentStyle={ Styles.imageDialog }
-					onRequestClose={this.setState.bind(this, {open: false})}>
-					<div style={{display: 'flex', justifyContent: 'center', backgroundColor: 'black'}}>
-						<img src={this.props.src} style={Styles.bigImage} />
-					</div>
-				</Dialog>
-				<img
-					src={this.props.src}
-					onClick={this.handleClick.bind(this, this.props.uuid)}
-					style={style} />
+				<div>
+					<img
+						src={this.props.src}
+						onClick={this.handleClick.bind(this, this.props.uuid)}
+						style={style} />
+				</div>
 			</div>
 		);
-
 	}
 }
 
@@ -75,7 +61,6 @@ class Display extends React.Component {
 		this.state = {
 			selectedElement: {},
 			display: 'display-photo',
-			sources: this.props.sources
 		}
 	}
 
@@ -109,11 +94,12 @@ class Display extends React.Component {
 			<style>{'section::after {content:\'\'; flex-grow: 999999999}'}</style>
 			<section style={{display: 'flex', flexWrap: 'wrap'}}>
 				{
-					Object.keys(this.props.sources).map((uuid) => {
+					this.props.sources.map((p, idx) => {
 						return (<ClickableTile
-							key={uuid}
-							src={'/api/photos/' + uuid}
-							uuid={uuid}
+							key={p.uuid}
+							src={'/api/photos/' + p.uuid + '-thumb'}
+							uuid={p.uuid}
+							thumbDblClick={src => this.props.thumbDblClick(idx, src)}
 							/>);
 					})
 				}

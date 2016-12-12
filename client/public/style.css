@@ -2,8 +2,13 @@ body {
   margin: 0;
   font-family: 'Roboto', sans-serif;
 }
-html,body {
+html,body,#app {
   height: 100%;
+  width: 100%;
+}
+
+.stretch {
+  height: calc(100% - 112px);
   width: 100%;
 }
 

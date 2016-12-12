@@ -4,12 +4,10 @@ import ReactDOM from 'react-dom';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import FontIcon from 'material-ui/FontIcon';
-import * as _ from 'lodash';
-import Styles from './Styles';
-import FileList from './FileList';
+import each from 'lodash/each';
 
-require('es6-promise').polyfill();
-require('isomorphic-fetch');
+import FileList from './FileList';
+import Styles from './Styles';
 
 class Upload extends React.Component {
   constructor(props){
@@ -28,7 +26,7 @@ class Upload extends React.Component {
     // instead of an html5 dropzone
     var formData = new FormData();
     // Attach all accepted files to the form data
-    _.each(acceptedFiles, file => formData.append('photos', file));
+    each(acceptedFiles, file => formData.append('photos', file));
     this.setState({ formData, fileNames: acceptedFiles.map(file => file.name) });
     console.log('sadfdsfa', acceptedFiles);
   }
@@ -48,7 +46,10 @@ class Upload extends React.Component {
       method: 'POST',
       body: this.state.formData
     })
-    .then(response => console.log('Got response from server ', response))
+    .then(response => {
+      console.log('Got response from server ', response);
+      this.setState(this.originalState);
+    })
     .catch(err => console.log('Error posting: ', err));
   }
 

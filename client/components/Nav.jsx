@@ -4,16 +4,13 @@ import AutoComplete from 'material-ui/AutoComplete';
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 import FontIcon from 'material-ui/FontIcon';
 import FlatButton from 'material-ui/FlatButton';
-import Upload from './upload.js';
+import Upload from './Upload';
 import Styles from './Styles'
-require('es6-promise').polyfill();
-require('isomorphic-fetch');
 
 class Nav extends React.Component {
   constructor (props) {
 
     super(props);
-    console.log(props.autoCompleteData);
   }
 
   render() {
@@ -31,6 +28,7 @@ class Nav extends React.Component {
             onNewRequest={searchStr => this.props.handleSearch(searchStr, 10)}
             fullWidth={true}
             inputStyle={{color: 'white'}}
+            id='navSearch'
             />
           <ToolbarGroup>
             <Upload />

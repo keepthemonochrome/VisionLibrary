@@ -23,7 +23,6 @@ const Styles = {
     height: '100%',
     overflowY: 'auto',
   },
-
   image: {
     height: 200,
     objectFit: 'cover',
@@ -40,17 +39,6 @@ const Styles = {
     flexGrow: 1,
     backgroundColor: 'rgb(159, 159, 159)',
     margin: '0px 1px 4px 1px',
-  },
-  imageDialog: {
-    width: '95%',
-    height: '30%',
-    maxWidth: 'none',
-    maxHeight: 'none',
-  },
-  bigImage: {
-    objectFit: 'contain',
-    maxWidth: '100%',
-    maxHeight: '100%'
   },
   deleteButton: {
     color: 'red'
@@ -73,7 +61,13 @@ const Styles = {
   fileListItem: {
     color: '#64B5F6',
   },
-
+  bigImageDiv: {
+    backgroundColor: 'black',
+    backgroundSize: 'contain',
+    backgroundRepeat: 'no-repeat',
+    height: '100%',
+    backgroundPosition: 'center center',
+  },
 
 
 
