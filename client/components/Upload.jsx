@@ -38,7 +38,7 @@ class Upload extends React.Component {
 
   handleSubmit() {
     this.setState({open: false});
-    fetch('http://localhost:3000/api/photos', {
+    fetch('/api/photos', {
       method: 'POST',
       body: this.state.formData
     })
