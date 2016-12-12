@@ -17,7 +17,7 @@ class Nav extends React.Component {
     return (
         <Toolbar style={this.props.style}>
           <ToolbarGroup>
-            <ToolbarTitle text="SuperSorter" style={Styles.toolbarTitle} />
+            <ToolbarTitle text="VisionSearch" style={Styles.toolbarTitle} />
           </ToolbarGroup>
           <FontIcon className="muidocs-icon-custom-sort" />
           <AutoComplete

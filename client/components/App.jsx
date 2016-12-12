@@ -13,6 +13,7 @@ import TagBar from './TagBar';
 import Upload from './Upload';
 import BigImageView from './BigImageView';
 
+
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -93,15 +94,18 @@ export default class App extends React.Component {
   // TODO change sources to array
 
   handleDelete (sources) {
-    sources.forEach(function(source) {
-      console.log(source);
-      fetch('/api/photos/delete/' + source, {method: 'POST'})
+    let promises = sources.map(source =>
+      fetch('/api/photos/delete/' + source, {method: 'POST'}));
+
+    Promise.all(promises).then(() => {
+      this.loadAllPhoto();
+      setTimeout(this.fetchTopKeywords.bind(this), 1500);
     });
-    sources.forEach(source => {
-      var modifiedState = this.state.photosUUIDsToDisplay;
-      modifiedState =modifiedState.delete(source);
-      this.setState(this.photosUUIDsToDisplay: modifiedState);
-    });
+    // sources.forEach(source => {
+    //   var modifiedState = this.state.photosUUIDsToDisplay;
+    //   modifiedState =modifiedState.delete(source);
+    //   this.setState(this.photosUUIDsToDisplay: modifiedState);
+    // });
 
   }
 

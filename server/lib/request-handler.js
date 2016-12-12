@@ -46,8 +46,11 @@ module.exports = {
         console.log("Couldn't delete the photos, "+err);
       } else {
           model['keywords'].forEach(function(element) {
-          keyword.update({'keyword': element},{$pull: { 'photoUUIDs' : { 'uuid': uuid}}})
-          .then(function () {
+          keyword.findOneAndUpdate({'keyword': element},{$pull: { 'photoUUIDs' : { 'uuid': uuid}}}, {new: true}).exec()
+          .then(function (keywordDoc) {
+            if (keywordDoc.photoUUIDs.length === 0) {
+              keywordDoc.remove();
+            }
             fs.unlink(path.photos+'/'+uuid, function (err) {
              if(err) {
               console.log(err);
@@ -62,7 +65,7 @@ module.exports = {
 
 
   },
-  
+
 
   getPhotos() {
     // Find all photos, then use exec() to return a promise
