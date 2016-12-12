@@ -30,7 +30,12 @@ class Nav extends React.Component {
               this.props.fetchRelatedKeywords(searchStr);
               }
             }
-            onUpdateInput={searchStr => searchStr === '' ? this.props.loadAllPhoto() : null }
+            onUpdateInput={searchStr => {
+              if(searchStr === '') {
+                this.props.loadAllPhoto();
+                this.props.fetchTopKeywords();
+              }
+            }}
             fullWidth={true}
             inputStyle={{color: 'white'}}
             id='navSearch'

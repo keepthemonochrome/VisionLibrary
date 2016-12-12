@@ -151,6 +151,7 @@ export default class App extends React.Component {
           <Nav
             handleSearch={this.handleSearch.bind(this)}
             loadAllPhoto={this.loadAllPhoto.bind(this)}
+            fetchTopKeywords={this.fetchTopKeywords.bind(this)}
             fetchRelatedKeywords={this.fetchRelatedKeywords.bind(this)}
             style={{backgroundColor: '#03A9F4'}}
             autoCompleteData={this.state.autoCompleteData}
