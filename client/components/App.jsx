@@ -24,7 +24,7 @@ export default class App extends React.Component {
       sources: [],
       photosUUIDsToDisplay: new Set(),
       autoCompleteData: [],
-      topEightKeywords: [],
+      tagKeywords: [],
       bigImageSrc: '',
       bigImageIdx: 0,
       bigImageOpen: false,
@@ -37,15 +37,23 @@ export default class App extends React.Component {
     fetch('/api/keywords')
       .then(res => res.json())
       .then(keywords => {
-        let topEightKeywords = flow([
+        let tagKeywords = flow([
           sortBy([k => k.photoUUIDs.length]),
           map('keyword'),
           ks => ks.slice(0, 7)
         ]) (keywords);
         this.setState({
           autoCompleteData: map('keyword', keywords),
-          topEightKeywords});
+          tagKeywords});
       });
+  }
+
+  fetchRelatedKeywords(searchKeyword) {
+    fetch('api/keywords/searchKeyword')
+    .then(res => res.json())
+    .then(keywords => {
+
+    });
   }
 
   loadAllPhoto () {
@@ -150,7 +158,7 @@ export default class App extends React.Component {
     return (
       <section>
         <TagBar
-          tags={this.state.topEightKeywords}
+          tags={this.state.tagKeywords}
           style={{backgroundColor: 'rgb(245, 245, 245)'}}
           tagStyle={{marginRight: 10}}
           />
