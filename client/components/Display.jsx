@@ -34,7 +34,6 @@ class ClickableTile extends React.Component {
 	}
 
 	onDoubleClick() {
-		console.log('doubleclick detected', this.props.thumbDblClick);
 		this.props.thumbDblClick('/api/photos/' + this.props.uuid);
 	}
 
@@ -96,12 +95,12 @@ class Display extends React.Component {
 			<style>{'section::after {content:\'\'; flex-grow: 999999999}'}</style>
 			<section style={{display: 'flex', flexWrap: 'wrap'}}>
 				{
-					Object.keys(this.props.sources).map((uuid) => {
+					Object.keys(this.props.sources).map((uuid, idx) => {
 						return (<ClickableTile
 							key={uuid}
 							src={'/api/photos/' + uuid + '-thumb'}
 							uuid={uuid}
-							thumbDblClick={this.props.thumbDblClick}
+							thumbDblClick={src => this.props.thumbDblClick(idx, src)}
 							/>);
 					})
 				}

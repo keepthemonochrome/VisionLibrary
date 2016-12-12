@@ -17,11 +17,17 @@ window.endpoint = 'http://localhost:3000/api';
 export default class App extends React.Component {
   constructor(props) {
     super(props);
+
+    window.addEventListener('keyup', (e) => {
+      this.state.bigImageOpen && this.onDisplayKeyPress(e);
+    });
+
     this.state = {
       sources: {},
       autoCompleteData: [],
       topEightKeywords: [],
-      bigImageSrc: '/api/photos/3dcce3ca-eebd-494e-b9a6-6bb8284bea8f',
+      bigImageSrc: '',
+      bigImageIdx: 0,
       bigImageOpen: false
     }
     this.fetchKeywords();
@@ -75,11 +81,39 @@ export default class App extends React.Component {
     })
   }
 
-  onThumbDblClick(src) {
+  onThumbDblClick(bigImageIdx, bigImageSrc) {
+    console.log('OPENING ' + bigImageIdx);
+    console.log(this.state.sources);
     this.setState({
       bigImageOpen: true,
-      bigImageSrc: src
+      bigImageSrc,
+      bigImageIdx,
     });
+  }
+
+  skipUpDisplayImage(deltaIdx) {
+    let imageIdxToSwitch = this.state.bigImageIdx + deltaIdx;
+    // TODO change this.state.sources back to an array and refractor
+    this.setState({
+      bigImageIdx: imageIdxToSwitch,
+    })
+  }
+
+  onDisplayKeyPress(e) {
+    // Make a hashmap from event strings to functions that act for that event
+    let keyMap = {
+      ArrowLeft: () => {
+        console.log('left')
+      },
+      ArrowRight: () => {
+        console.log('right')
+      },
+      Escape: () => {
+        this.setState({ bigImageOpen: false });
+      },
+    };
+    // Check if a function for that the event key exists and call it if so
+    keyMap[e.key] && keyMap[e.key]();
   }
 
   render() {
