@@ -49,6 +49,8 @@ npm start
 ```
 - Transpile the react code from within the root directory by running `npm build` to build a production webpack javascript bundle.
 
+- Follow `cloudvision.config.sample` in the server config directory, and put your google credentials in the same folder as `credentials.json`
+
 ### User Experience
 - After uploading a picture, photos will be added to the library with tags and thumbnails automatically associated with that picture.
 - Double clicking a thumbnail will open the full photo in a larger view where arrow keys can move between photos.
