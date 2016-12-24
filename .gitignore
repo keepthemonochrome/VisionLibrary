@@ -12,3 +12,6 @@ bundle.js.map
 
 
 photo_storage
+
+*config.js
+credentials.json
