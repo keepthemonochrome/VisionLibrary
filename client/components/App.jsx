@@ -168,7 +168,7 @@ export default class App extends React.Component {
             loadAllPhoto={this.loadAllPhoto.bind(this)}
             fetchTopKeywords={this.fetchTopKeywords.bind(this)}
             fetchRelatedKeywords={this.fetchRelatedKeywords.bind(this)}
-            style={{backgroundColor: '#03A9F4'}}
+            style={{backgroundColor: '#800080'}}
             autoCompleteData={this.state.autoCompleteData}
             onUpload={this.loadAllPhoto.bind(this)}
             />
@@ -193,11 +193,6 @@ export default class App extends React.Component {
   renderDisplay() {
     return (
       <section>
-        <TagBar
-          tags={this.state.relatedKeywords}
-          style={{backgroundColor: 'rgb(245, 245, 245)'}}
-          tagStyle={{marginRight: 10}}
-          />
         <Display
         loadAllPhoto={ this.loadAllPhoto.bind(this) }
         handleDelete={ this.handleDelete.bind(this) }

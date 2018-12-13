@@ -17,7 +17,7 @@ class Nav extends React.Component {
     return (
         <Toolbar style={this.props.style}>
           <ToolbarGroup>
-            <ToolbarTitle text="VisionSearch" style={Styles.toolbarTitle} />
+            <ToolbarTitle text="Pixel Library" style={Styles.toolbarTitle} />
           </ToolbarGroup>
           <FontIcon className="muidocs-icon-custom-sort" />
           <AutoComplete
@@ -44,15 +44,13 @@ class Nav extends React.Component {
             <Upload onUpload={this.props.onUpload} />
             <FlatButton
               icon={<FontIcon className="material-icons">account_circle</FontIcon>}
-              label="michaelbdai"
+              label="S Hong"
               style={Styles.userButton} />
           </ToolbarGroup>
         </Toolbar>
     );
   }
 }
-// <ToolbarGroup>
-// </ToolbarGroup>
 
 
 module.exports = Nav;

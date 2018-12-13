@@ -20,19 +20,6 @@ export default class BigImageView extends React.Component {
           <div style={{flexGrow: 1,}}>
             <div style={Object.assign(Styles.bigImageDiv, {backgroundImage: `url("${this.props.src}")`,})} />
           </div>
-          <div style={{width: 200, paddingLeft: 20}}>
-              <h3>Detailed Information</h3>
-              <ul>
-                <li>Date: { this.state.modifyDate }</li>
-                <li>Camera Info: {this.state.cameraInfoMake + ' ' + this.state.cameraInfoModel}</li>
-                <li>Keywords: </li>
-                <ul>
-                {this.props.keywords.map((keyword, index)=>(
-                  <li>{keyword} </li>
-                ))}
-                </ul>
-              </ul>
-            </div>
         </div>
       );
     }
